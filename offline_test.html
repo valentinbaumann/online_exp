@@ -40,25 +40,21 @@
 	///////////////////////////////////////////////////////
 	// define variables
 
+
+	// create timeline
+	var timeline = [];
+
 	var console_test = "go console!";
 	console.log(console_test);
   
-	// get browser interaction data 
-  //var interaction_data = jsPsych.data.getInteractionData()
-	//console.log(interaction_data);
-
-
   // create condition variable
-  var condition_array = ["STM", "noSTM", "LOP"]
+  /* var condition_array = ["STM", "noSTM", "LOP"]
   condition_array = jsPsych.randomization.shuffle(condition_array)    // shuffle array
-  condition = condition_array[0]      // get first element
-  console.log(condition_array);
-	console.log(condition);
-
+  var condition = condition_array[0]      // get first element
+	*/
+	var	condition = "LOP";
 	jsPsych.data.addProperties({condition: condition});	// adds condition variable to all trials in the data
-
-
-
+	console.log(condition);
 
 	// complete learning list (should be an even number of words!)
 	var words_learning= [
@@ -71,32 +67,29 @@
 	// shuffle learning list
 	words_learning = jsPsych.randomization.shuffle(words_learning) ;
 
-	// divide learning list into blocks (is this even necessary? -> already done by the data/block parameter in the original list????)
-	var words_learning_block1 = words_learning.slice(0, words_learning.length / 2);		// take 1st half of learning list for Block 1
-	var words_learning_block2 = words_learning.slice(words_learning.length / 2, words_learning.length); 	// take 2nd half of learning list for Block 2
+	// if condition == LOP, prepare learning list for LOP learning
+	if (condition == "LOP"){
+		// divide learning list into blocks 
+		var words_learning_block1 = words_learning.slice(0, words_learning.length / 2);		// take 1st half of learning list for Block 1
+		var words_learning_block2 = words_learning.slice(words_learning.length / 2, words_learning.length); 	// take 2nd half of learning list for Block 2
 
-	// get a random order of orienting tasks
-	var orienting_task = ["synonym", "rhyme"];
-	orienting_task = jsPsych.randomization.shuffle(orienting_task) ;
+		// get a random order of orienting tasks
+		var orienting_task = ["synonym", "rhyme"];
+		orienting_task = jsPsych.randomization.shuffle(orienting_task) ;
 
-	// update learning list data: add orienting task type and block number
-	// update learning list for block 1
-	var i																																		// counting variable needs to be defined out of the loop
-	for (i = 0; i < words_learning_block1.length; i = i + 1){
-		words_learning_block1[i]["data"]["orienting"] = orienting_task[0];		// can also be written as ...block1[1].data.orienting
-		words_learning_block1[i]["data"]["block"] = 1;
-	};
-	// update learning list for block 2
-	var j 
-	for (j = 0; j < words_learning_block1.length; j = j + 1){
-		words_learning_block1[j]["data"]["orienting"] = orienting_task[1];
-		words_learning_block1[j]["data"]["block"] = 2;
-	};
-
-	console.table(words_learning)
-	console.table(words_learning_block1)
-	console.table(words_learning_block2)
-
+		// update learning list for block 1 with block number and orienting task type (somehow, this also updates the original learning list???)
+		var i																																		// counting variable needs to be defined out of the loop
+		for (i = 0; i < words_learning_block1.length; i = i + 1){
+			words_learning_block1[i]["data"]["orienting"] = orienting_task[0];		// can also be written as ...block1[1].data.orienting
+			words_learning_block1[i]["data"]["block"] = 1;
+		};
+		// update learning list for block 2
+		var j 
+		for (j = 0; j < words_learning_block2.length; j = j + 1){
+			words_learning_block2[j]["data"]["orienting"] = orienting_task[1];
+			words_learning_block2[j]["data"]["block"] = 2;
+		};
+	} 
 
 
   // recognition list 
@@ -107,8 +100,7 @@
 		{word: 'Macaron (neu)', data: {trial_code: 'recognition', word_validity: 'new'}},
 	];
 	
-	// create timeline
-	var timeline = [];
+
   
 	// create fixation trial
 	var fixation_trial = {
@@ -169,13 +161,20 @@
 	};
 	timeline.push(welcome_instruction_trial);
 
- 	// biographic data
+ 	// subject ID
+	var subject_id_trial = {
+		type: 'survey-text',
+		questions: [{prompt: "Bitte gib deinen persönlichen Probandencode ein:"}],
+	};
+	timeline.push(subject_id_trial); 
+ 
+	// biographic data
 	var survey_trial = {
 		type: 'survey-text',
-		questions: [{prompt: "Subject Code"}, {prompt: "Wie alt bist du?"}, {prompt: "Was ist dein Lieblingsessen?"}],
+		questions: [{prompt: "höchster Bildungsabschluss:"}, {prompt: "Wie alt bist du?"}, {prompt: "Geschlecht?"}],
 	};
 	timeline.push(survey_trial); 
- 
+
 	// learning instruction
 	var learning_instruction_trial = {
 		type: 'html-button-response',
@@ -192,20 +191,22 @@
 	}	
 	timeline.push(learning_timeline)
 
-	//  recall instruction
-	var recall_instruction_trial = {
-		type: 'html-button-response',
-    stimulus: '<p> Aufgabe: Erinnern </p>' + '<p> </p>',
-		choices: ['Los!']
-	};
-	timeline.push(recall_instruction_trial);
+	if (condition = "STM"){
+		//  recall instruction
+		var recall_instruction_trial = {
+			type: 'html-button-response',
+			stimulus: '<p> Aufgabe: Erinnern </p>' + '<p> </p>',
+			choices: ['Los!']
+		};
+		timeline.push(recall_instruction_trial);
 
-  // recall task
-	var recall_trial = {
-		type: 'survey-text',
-		questions: [{prompt: "Bitte schreibe alle Wörter auf, an die du dich noch erinnern kannst", rows: 20, columns: 40}],
-	};
-	timeline.push(recall_trial); 
+		// recall task
+		var recall_trial = {
+			type: 'survey-text',
+			questions: [{prompt: "Bitte schreibe alle Wörter auf, an die du dich noch erinnern kannst", rows: 20, columns: 40}],
+		};
+		timeline.push(recall_trial); 
+	}
 
 	// recognition instruction 
 	var recognition_instruction_trial = {
