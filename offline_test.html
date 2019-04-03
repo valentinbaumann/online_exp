@@ -56,6 +56,7 @@
 	jsPsych.data.addProperties({condition: condition});	// adds condition variable to all trials in the data
 	console.log(condition);
 
+
 	// complete learning list (should be an even number of words!)
 	var words_learning= [
 		{word: 'Muffin (alt)', data: {trial_code: 'learning', word_validity: 'old', block: 99, orienting: "none"}},
@@ -191,7 +192,7 @@
 	}	
 	timeline.push(learning_timeline)
 
-	if (condition = "STM"){
+	if (condition == "STM"){
 		//  recall instruction
 		var recall_instruction_trial = {
 			type: 'html-button-response',
@@ -238,8 +239,6 @@
 		
 	///////////////////////////////////////////////////////
 	// start experiment
-
-
 
 	// starts playing the timeline
 	jsPsych.init({
