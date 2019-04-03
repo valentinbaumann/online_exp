@@ -60,37 +60,42 @@
 
 
 
-	// complete learning list
+	// complete learning list (should be an even number of words!)
 	var words_learning= [
-		{word: 'Muffin (alt)', data: {trial_code: 'learning', word_validity: 'old', block: 99, orienting: "XXX"}},
-		{word: 'Keks (alt)', data: {trial_code: 'learning', word_validity: 'old', block: 99, orienting: "XXX"}},
-		{word: 'Torte (alt)', data: {trial_code: 'learning', word_validity: 'old', block: 99, orienting: "XXX"}},
-		{word: 'Kuchen (alt)', data: {trial_code: 'learning', word_validity: 'old', block: 99, orienting: "XXX"}},
+		{word: 'Muffin (alt)', data: {trial_code: 'learning', word_validity: 'old', block: 99, orienting: "none"}},
+		{word: 'Keks (alt)', data: {trial_code: 'learning', word_validity: 'old', block: 99, orienting: "none"}},
+		{word: 'Torte (alt)', data: {trial_code: 'learning', word_validity: 'old', block: 99, orienting: "none"}},
+		{word: 'Kuchen (alt)', data: {trial_code: 'learning', word_validity: 'old', block: 99, orienting: "none"}},
 	];
 
 	// shuffle learning list
-	words_learning = jsPsych.randomization.shuffle(words_learning) ;   // shuffle array
+	words_learning = jsPsych.randomization.shuffle(words_learning) ;
 
-	// divide learning list into blocks 
-	// tells you how many words are in the learning list (should be an even number)
-	var length_words_learning = words_learning.length;
-	var half_length_learning = length_words_learning / 2; 
-	var words_learning_block1 = words_learning.slice(0, half_length_learning);		// take 1st half of learning list for Block 1
-	var words_learning_block2 = words_learning.slice(half_length_learning, length_words_learning); 	// take 2nd half of learning list for Block 2
+	// divide learning list into blocks (is this even necessary? -> already done by the data/block parameter in the original list????)
+	var words_learning_block1 = words_learning.slice(0, words_learning.length / 2);		// take 1st half of learning list for Block 1
+	var words_learning_block2 = words_learning.slice(words_learning.length / 2, words_learning.length); 	// take 2nd half of learning list for Block 2
 
-	// randomly choose an orienting task for block 1 and 2 
+	// get a random order of orienting tasks
 	var orienting_task = ["synonym", "rhyme"];
-	orienting_task = jsPsych.randomization.shuffle(orienting_task) ;   // shuffle array
-	console.log(orienting_task[0]);
+	orienting_task = jsPsych.randomization.shuffle(orienting_task) ;
 
 	// update learning list data: add orienting task type and block number
+	// update learning list for block 1
+	var i																																		// counting variable needs to be defined out of the loop
+	for (i = 0; i < words_learning_block1.length; i = i + 1){
+		words_learning_block1[i]["data"]["orienting"] = orienting_task[0];		// can also be written as ...block1[1].data.orienting
+		words_learning_block1[i]["data"]["block"] = 1;
+	};
+	// update learning list for block 2
+	var j 
+	for (j = 0; j < words_learning_block1.length; j = j + 1){
+		words_learning_block1[j]["data"]["orienting"] = orienting_task[1];
+		words_learning_block1[j]["data"]["block"] = 2;
+	};
 
-	
-	words_learning_block1[0]["data"]["orienting"] = orienting_task[0]		// can also be written as ...block1[1].data.orienting
-	words_learning_block1[0]["data"]["block"] = 1
-
-	words_learning_block2[0]["data"]["orienting"] = orienting_task[1]
-	words_learning_block2[0]["data"]["block"] = 2
+	console.table(words_learning)
+	console.table(words_learning_block1)
+	console.table(words_learning_block2)
 
 
 
@@ -98,14 +103,10 @@
 	var words_recognition= [
 		{word: 'Muffin (alt)', data: {trial_code: 'recognition', word_validity: 'old'}},
 		{word: 'Keks (alt)', data: {trial_code: 'recognition', word_validity: 'old'}},
-		{word: 'Torte (alt)', data: {trial_code: 'recognition', word_validity: 'old'}},
-		{word: 'Kuchen (alt)', data: {trial_code: 'recognition', word_validity: 'old'}},
 		{word: 'Waffel (neu)', data: {trial_code: 'recognition', word_validity: 'new'}},
 		{word: 'Macaron (neu)', data: {trial_code: 'recognition', word_validity: 'new'}},
 	];
 	
-
-
 	// create timeline
 	var timeline = [];
   
