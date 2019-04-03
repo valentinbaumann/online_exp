@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<html lang="de">
+
+<head>
+
+  <meta charset="UTF-8"/>
+  
+  <!-- name of experiment -->
+  <title>recognition</title>  
+  
+  <!-- loads jspsych plugins (online) -->
+  <!--
+  <script type="text/javascript" src="lib/vendors/jspsych-6.0.5/jspsych.js"></script>
+  <link rel="stylesheet" type="text/css" href="lib/vendors/jspsych-6.0.5/css/jspsych.css"/>
+  <script type="text/javascript" src="lib/vendors/jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js"></script>
+  <script type="text/javascript" src="lib/vendors/jspsych-6.0.5/plugins/jspsych-image-keyboard-response.js"></script>
+  <script type="text/javascript" src="lib/vendors/jspsych-6.0.5/plugins/jspsych-html-button-response.js"></script>
+  <script src="lib/vendors/jspsych-6.0.5/plugins/jspsych-survey-text.js"></script> 
+  -->
+ 
+  <!-- loads jspsych plugins (offline) -->
+  <script type="text/javascript" src="jspsych-6.0.5/jspsych.js"></script>
+  <link rel="stylesheet" type="text/css" href="jspsych-6.0.5/css/jspsych.css"/>
+  <script type="text/javascript" src="jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js"></script>
+  <script type="text/javascript" src="jspsych-6.0.5/plugins/jspsych-image-keyboard-response.js"></script>
+	<script type="text/javascript" src="jspsych-6.0.5/plugins/jspsych-html-button-response.js"></script>
+	<script type="text/javascript" src="jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js"></script>
+	<script type="text/javascript" src="jspsych-6.0.5/plugins/jspsych-fullscreen.js"></script>
+  <script src="jspsych-6.0.5/plugins/jspsych-survey-text.js"></script> 
+
+</head>
+
+
+
+<!-- this is the Javascript section -->
+<script>
+  
+
+	///////////////////////////////////////////////////////
+	// define variables
+
+	var console_test = "go console!";
+	console.log(console_test);
+  
+	// get browser interaction data 
+  //var interaction_data = jsPsych.data.getInteractionData()
+	//console.log(interaction_data);
+
+
+  // create condition variable
+  var condition_array = ["STM", "noSTM", "LOP"]
+  condition_array = jsPsych.randomization.shuffle(condition_array)    // shuffle array
+  condition = condition_array[0]      // get first element
+  console.log(condition_array);
+	console.log(condition);
+
+	jsPsych.data.addProperties({condition: condition});	// adds condition variable to all trials in the data
+
+	// decide orienting task
+	var orienting_task = ["synonym", "rhyme"];
+	orienting_task = jsPsych.randomization.shuffle(orienting_task) ;   // shuffle array
+	console.log(orienting_task);
+	console.log(orienting_task[0]);
+
+
+	// learning list
+	var words_learning= [
+		{word: 'Muffin (alt)', data: {trial_code: 'learning', word_validity: 'old', orienting: orienting_task[0]}},
+		{word: 'Keks (alt)', data: {trial_code: 'learning', word_validity: 'old', orienting: orienting_task[0]}},
+		{word: 'Torte (alt)', data: {trial_code: 'learning', word_validity: 'old', orienting: orienting_task[1]}},
+		{word: 'Kuchen (alt)', data: {trial_code: 'learning', word_validity: 'old', orienting: orienting_task[1]}},
+	];
+
+	// gets the first element out of the array above
+	var test_learning = words_learning[0]
+
+
+  // recognition list 
+	var words_recognition= [
+		{word: 'Muffin (alt)', data: {trial_code: 'recognition', word_validity: 'old'}},
+		{word: 'Keks (alt)', data: {trial_code: 'recognition', word_validity: 'old'}},
+		{word: 'Torte (alt)', data: {trial_code: 'recognition', word_validity: 'old'}},
+		{word: 'Kuchen (alt)', data: {trial_code: 'recognition', word_validity: 'old'}},
+		{word: 'Waffel (neu)', data: {trial_code: 'recognition', word_validity: 'new'}},
+		{word: 'Macaron (neu)', data: {trial_code: 'recognition', word_validity: 'new'}},
+	];
+	
+
+
+	// create timeline
+	var timeline = [];
+  
+	// create fixation trial
+	var fixation_trial = {
+		type: 'html-keyboard-response',
+    stimulus: '<div style="font-size:60px;">+</div>',
+    choices: jsPsych.NO_KEYS,
+		trial_duration: 500,
+		post_trial_gap: 0,
+		data: {trial_code: 'fixation'}
+    }
+
+	// create learning trial	
+  var learning_trial = {
+        type: 'html-keyboard-response',
+				stimulus: jsPsych.timelineVariable('word'),
+        choices: jsPsych.NO_KEYS,
+				trial_duration: 500,
+        post_trial_gap: 0,
+				data: jsPsych.timelineVariable('data'),
+	};			
+
+	// create recognition trial	
+  var recognition_trial = {
+        type: 'html-keyboard-response',
+				stimulus: jsPsych.timelineVariable('word'),
+        choices: ['y','n'],
+        post_trial_gap: 0,
+				data: jsPsych.timelineVariable('data'),
+				/*
+				on_finish: function(data){
+          if(data.word_validity == 'old'){
+            var correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode('y');
+          } else {
+            var correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode('n');
+          }
+          jsPsych.data.addDataToLastTrial({correct: correct});
+				}
+				*/
+  };
+
+
+	///////////////////////////////////////////////////////
+	// define trials
+
+	var fullscreen_trial = {
+		type: 'fullscreen',
+		message: '',
+		button_label: ['Start and enter fullscreen mode'],
+		fullscreen_mode: true,
+	}
+	timeline.push(fullscreen_trial);
+
+	// welcome instruction
+	var welcome_instruction_trial = {
+		type: 'html-button-response',
+    stimulus: '<p> Willkommen! <br> <br> Ankas & Lindas coole Masterarbeit </p>',
+		choices: ['Los!']
+	};
+	timeline.push(welcome_instruction_trial);
+
+ 	// biographic data
+	var survey_trial = {
+		type: 'survey-text',
+		questions: [{prompt: "Subject Code"}, {prompt: "Wie alt bist du?"}, {prompt: "Was ist dein Lieblingsessen?"}],
+	};
+	timeline.push(survey_trial); 
+ 
+	// learning instruction
+	var learning_instruction_trial = {
+		type: 'html-button-response',
+    stimulus: '<p> Aufgabe: Lernen </p>' + '<p> Die werden nacheinander einige Wörter gezeigt. Versuch dir alle so gut wie möglich zu merken! </p>',
+		choices: ['Los!']
+	};
+	timeline.push(learning_instruction_trial);
+
+	// learning task with own internal timeline (learning trial + fixation)
+	var learning_timeline = {
+    timeline_variables: words_learning,
+    randomize_order: true,
+    timeline: [fixation_trial, learning_trial]	
+	}	
+	timeline.push(learning_timeline)
+
+	//  recall instruction
+	var recall_instruction_trial = {
+		type: 'html-button-response',
+    stimulus: '<p> Aufgabe: Erinnern </p>' + '<p> </p>',
+		choices: ['Los!']
+	};
+	timeline.push(recall_instruction_trial);
+
+  // recall task
+	var recall_trial = {
+		type: 'survey-text',
+		questions: [{prompt: "Bitte schreibe alle Wörter auf, an die du dich noch erinnern kannst", rows: 20, columns: 40}],
+	};
+	timeline.push(recall_trial); 
+
+	// recognition instruction 
+	var recognition_instruction_trial = {
+		type: 'html-button-response',
+    stimulus: '<p> Aufgabe: Wiedererkennen </p>' + '<p>Dir werden nacheinander einige Worte gezeigt.</p>'+
+		'<p>Druecke Y wenn du ein Wort gestern schon gesehen hast.</p><p>Druecke N, wenn du ein Wort gestern noch nicht gesehen hast.</p>',
+		choices: ['Los!']
+	};
+	timeline.push(recognition_instruction_trial);
+
+	// recognition task with own internal timeline (recognition trial + fixation)
+	var recognition_timeline = {
+    timeline_variables: words_recognition,
+    randomize_order: true,
+    timeline: [fixation_trial, recognition_trial]	
+	}	
+	timeline.push(recognition_timeline)
+
+	// end trial
+	var end_trial = {
+		type: 'html-button-response',
+		stimulus: '<p>Ende</p>',
+		choices: ['Ende!']
+	};
+	timeline.push(end_trial);
+   
+
+
+		
+	///////////////////////////////////////////////////////
+	// start experiment
+
+
+
+	// starts playing the timeline
+	jsPsych.init({
+		timeline: timeline,
+		on_finish: function() {jsPsych.data.displayData('csv');},					// displays data at the end
+	});
+
+  
+</script>
+
+</html>
