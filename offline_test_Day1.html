@@ -56,43 +56,26 @@
 	console.log("rehearsal_condition: " + rehearsal_condition);
 
 
-	// complete learning list (should be dividable by three!)
+	// complete learning list (should be dividable by three, since there are three encoding conditions!)
 	var words_learning= [
-		{word: 'Muffin (alt)', data: {trial_code: 'learning', word_validity: 'old', block: 99, encoding_condition: "none"}},
-		{word: 'Keks (alt)', data: {trial_code: 'learning', word_validity: 'old', block: 99, encoding_condition: "none"}},
-		{word: 'Torte (alt)', data: {trial_code: 'learning', word_validity: 'old', block: 99, encoding_condition: "none"}},
-		{word: 'Kuchen (alt)', data: {trial_code: 'learning', word_validity: 'old', block: 99, encoding_condition: "none"}},
-		{word: 'Stollen (alt)', data: {trial_code: 'learning', word_validity: 'old', block: 99, encoding_condition: "none"}},
-		{word: 'Croissant (alt)', data: {trial_code: 'learning', word_validity: 'old', block: 99, encoding_condition: "none"}},
+		{word: 'Muffin (alt)', data: {trial_code: 'learning', block: 99, encoding_condition: "none"}},
+		{word: 'Keks (alt)', data: {trial_code: 'learning', block: 99, encoding_condition: "none"}},
+		{word: 'Torte (alt)', data: {trial_code: 'learning', block: 99, encoding_condition: "none"}},
+		{word: 'Kuchen (alt)', data: {trial_code: 'learning', block: 99, encoding_condition: "none"}},
+		{word: 'Stollen (alt)', data: {trial_code: 'learning', block: 99, encoding_condition: "none"}},
+		{word: 'Croissant (alt)', data: {trial_code: 'learning', block: 99, encoding_condition: "none"}},
 	];
 
 	// shuffle learning list
 	words_learning = jsPsych.randomization.shuffle(words_learning) ;
 
-	// split learning list by the three conditions
+	// split learning list evenly across the three conditions
 	// slice() includes the start element but omits the end element!
-	var words_learning_block1 = words_learning.slice(0, words_learning.length / 3);		// take 1st part of learning list for Block 1
-	var words_learning_block2 = words_learning.slice(words_learning.length / 3, (words_learning.length / 3)*2);		// take 2nd part of learning list for Block 2
-	var words_learning_block3 = words_learning.slice((words_learning.length / 3)*2, words_learning.length); 	// take 3rd part of learning list for Block 3
-	//console.log(" begin of words_learning_block3: " + words_learning_block3[0]["word"]);	
+	var words_learning_slice1 = words_learning.slice(0, words_learning.length / 3);		// take 1st part of learning list for 
+	var words_learning_slice2 = words_learning.slice(words_learning.length / 3, (words_learning.length / 3)*2);		// take 2nd part of learning list 
+	var words_learning_slice3 = words_learning.slice((words_learning.length / 3)*2, words_learning.length); 	// take 3rd part of learning list 
+
 	
-	// update learning lists with 
-
-
-	// update word lists with information on block and condition
-	// somehow, this also updates the original learning list (maybe slice() does not create independent copies?)
-	var i																																		// counting variable needs to be defined out of the loop
-	for (i = 0; i < words_learning_block1.length; i = i + 1){
-		words_learning_block1[i]["data"]["encoding_condition"] = encoding_condition_array[0];		// can also be written as ...block1[1].data.encoding_condition
-		words_learning_block1[i]["data"]["block"] = 1;
-		
-		words_learning_block2[i]["data"]["encoding_condition"] = encoding_condition_array[1];		
-		words_learning_block2[i]["data"]["block"] = 2;
-		
-		words_learning_block3[i]["data"]["encoding_condition"] = encoding_condition_array[2];		// can also be written as ...block1[1].data.encoding_condition
-		words_learning_block3[i]["data"]["block"] = 3;	
-	};
-	console.log("check encoding_condition of block1: " + words_learning_block1[0]["data"]["encoding_condition"])
 
 
 
@@ -104,21 +87,42 @@
 		type: 'html-keyboard-response',
     stimulus: '<div style="font-size:60px;">+</div>',
     choices: jsPsych.NO_KEYS,
-		trial_duration: 500,
+		trial_duration: 1000,
 		post_trial_gap: 0,
 		data: {trial_code: 'fixation'}
     }
 
-	// create learning trial	
-  var learning_trial = {
+	// create intentional learning trial	
+	var learning_trial_intentional = {
         type: 'html-keyboard-response',
-				stimulus: jsPsych.timelineVariable('word'),
+		stimulus: jsPsych.timelineVariable('word'),
         choices: jsPsych.NO_KEYS,
-				trial_duration: 500,
+		trial_duration: 1500,
         post_trial_gap: 0,
-				data: jsPsych.timelineVariable('data'),
+		data: jsPsych.timelineVariable('data'),
+	};			
+	
+	// create incidental_semantic learning trial	
+	var learning_trial_incidental_semantic = {
+        type: 'html-keyboard-response',
+		stimulus: jsPsych.timelineVariable('word'),
+        choices: ["l", "n"],
+		prompt: "<p> <br> <br> Drücke 'L' für lebendig </p> <p> Drücke 'N' für nicht lebendig </p>", 
+		trial_duration: 1500,
+        post_trial_gap: 0,
+		data: jsPsych.timelineVariable('data'),
 	};			
 
+	// create incidental_perceptual learning trial	
+	var learning_trial_incidental_perceptual = {
+        type: 'html-keyboard-response',
+		stimulus: jsPsych.timelineVariable('word'),
+        choices: ["e", "n"],
+		prompt: "<p> <br> <br> Drücke 'E' wenn das Wort ein 'E' enthält </p> <p> Drücke 'N' wenn das Wort kein 'E' enthält. </p>", 
+		trial_duration: 1500,
+        post_trial_gap: 0,
+		data: jsPsych.timelineVariable('data'),
+	};		
 
 
 	///////////////////////////////////////////////////////
@@ -160,160 +164,107 @@
 	// start learning task blocks
 	
 	var block_counter																																		// counting variable needs to be defined out of the loop
-		for (block_counter = 0; block_counter < encoding_condition_array.length; block_counter	 = block_counter + 1){
+	for (block_counter = 0; block_counter < encoding_condition_array.length; block_counter	 = block_counter + 1){
 		
 		// get the current block
 		var current_block_condition = encoding_condition_array[block_counter];
 		console.log("current_block: " + current_block_condition);
 		
+		
 			if (current_block_condition == "incidental_semantic"){
 			
+					// update current word list slice with information on block and condition
+					// somehow, this also updates the original learning list (maybe slice() does not create independent copies?)
+					var i																																		// counting variable needs to be defined out of the loop
+					for (i = 0; i < words_learning_slice1.length; i = i + 1){
+						words_learning_slice1[i]["data"]["encoding_condition"] = current_block_condition;		// can also be written as ...block1[1].data.encoding_condition
+						words_learning_slice1[i]["data"]["block"] = block_counter + 1;
+					};
+					
 					var learning_instruction_trial = {
 						type: 'html-button-response',
-						stimulus: '<p> Aufgabe: Lernen </p>' + '<p> Dir werden nacheinander einige Wörter gezeigt. Entscheide für jedes Wort, ob das Wort ein Lebewesen oder ein nicht lebendes Objekt darstellt! </p>',
+						stimulus: 	'<p> Aufgabe: Lebendig - Nicht lebendig  </p>' + 
+									'<p> Dir werden nacheinander einige Wörter gezeigt. Entscheide für jedes Wort, ob das Wort ein Lebewesen oder ein nicht lebendes Objekt darstellt! </p>' + 
+									'<p> <br> <br> Drücke "L" für lebendig </p> <p> Drücke "N" für nicht lebendig </p>' +
+									'<p> Antworte so schnell und so korrekt wie möglich! </p>',
 						choices: ['Los!']
 					};
 					timeline.push(learning_instruction_trial);
+			
+					var learning_timeline = {												// learning task with own internal timeline (learning trial + fixation, defined above)
+						timeline_variables: words_learning_slice1,
+						randomize_order: true,
+						timeline: [fixation_trial, learning_trial_incidental_semantic]	
+					}	
+					timeline.push(learning_timeline)
 			
 			
 			} else if (current_block_condition == "incidental_perceptual"){
 			
+					// update current word list slice with information on block and condition
+					// somehow, this also updates the original learning list (maybe slice() does not create independent copies?)
+					var i																																		// counting variable needs to be defined out of the loop
+					for (i = 0; i < words_learning_slice2.length; i = i + 1){
+						words_learning_slice2[i]["data"]["encoding_condition"] = current_block_condition;		// can also be written as ...block1[1].data.encoding_condition
+						words_learning_slice2[i]["data"]["block"] = block_counter + 1;
+					};
+					
 					var learning_instruction_trial = {
 						type: 'html-button-response',
-						stimulus: '<p> Aufgabe: Lernen </p>' + '<p> Dir werden nacheinander einige Wörter gezeigt. Entscheide für jedes Wort, ob das Wort ein "E" enthält oder nicht! </p>',
+						stimulus: 	'<p> Aufgabe: E - kein E  </p>' + 
+									'<p> Dir werden nacheinander einige Wörter gezeigt. Entscheide für jedes Wort, ob das Wort ein "E" oder ein nicht lebendes Objekt darstellt! </p>' + 
+									'<p> <br> <br> Drücke "E" wenn das Wort ein "E" enthält </p> <p> Drücke "N" wenn das Wort kein "E" enthält. </p>' +
+									'<p> Antworte so schnell und so korrekt wie möglich! </p>',
 						choices: ['Los!']
 					};
 					timeline.push(learning_instruction_trial);
+
+					var learning_timeline = {												// learning task with own internal timeline (learning trial + fixation, defined above)
+						timeline_variables: words_learning_slice2,
+						randomize_order: true,
+						timeline: [fixation_trial, learning_trial_incidental_perceptual]	
+					}	
+					timeline.push(learning_timeline)
+			
 
 
 			} else if (current_block_condition == "intentional"){
 
+					// update current word list slice with information on block and condition
+					// somehow, this also updates the original learning list (maybe slice() does not create independent copies?)
+					var i																																		// counting variable needs to be defined out of the loop
+					for (i = 0; i < words_learning_slice3.length; i = i + 1){
+						words_learning_slice3[i]["data"]["encoding_condition"] = current_block_condition;		// can also be written as ...block1[1].data.encoding_condition
+						words_learning_slice3[i]["data"]["block"] = block_counter + 1;
+					};
+					
 					var learning_instruction_trial = {
 						type: 'html-button-response',
-						stimulus: '<p> Aufgabe: Lernen </p>' + '<p> Dir werden nacheinander einige Wörter gezeigt. Versuche dir jedes Wort so gut wie möglich zu merken! </p>',
+						stimulus: 	'<p> Aufgabe: Wörter lernen </p>' + 
+									'<p> Dir werden nacheinander einige Wörter gezeigt. Versuche dir jedes Wort so gut wie möglich zu merken! </p>',
 						choices: ['Los!']
 					};
 					timeline.push(learning_instruction_trial);
 					
-					
-					
+					var learning_timeline = {												// learning task with own internal timeline (learning trial + fixation, defined above)
+						timeline_variables: words_learning_slice3,
+						randomize_order: true,
+						timeline: [fixation_trial, learning_trial_intentional]	
+					}	
+					timeline.push(learning_timeline)
+			
 			}
 
+	} // end learning block loop
 
 
-
-
-
-
-
-/*
-
-	// choose type of learning instruction and learning task dependent on condition
-	if (rehearsal_condition == "STM"){
-
-			var learning_instruction_trial = {							// learning instruction for STM
-				type: 'html-button-response',
-				stimulus: '<p> Aufgabe: Lernen </p>' + '<p> Die werden nacheinander einige Wörter gezeigt. Versuche dir alle so gut wie möglich zu merken, du wirst gleich danach abgefragt werden! </p>',
-				choices: ['Los!']
-			};
-			timeline.push(learning_instruction_trial);
-
-			var learning_timeline = {												// learning task with own internal timeline (learning trial + fixation, defined above)
-				timeline_variables: words_learning,
-				randomize_order: true,
-				timeline: [fixation_trial, learning_trial]	
-			}	
-			timeline.push(learning_timeline)
-
-	} else if (rehearsal_condition == "noSTM"){
-
-			var learning_instruction_trial = {							// learning instruction for noSTM
-				type: 'html-button-response',
-				stimulus: '<p> Aufgabe: Lernen </p>' + '<p> Die werden nacheinander einige Wörter gezeigt. Versuche dir alle so gut wie möglich zu merken! </p>',
-				choices: ['Los!']
-			};
-			timeline.push(learning_instruction_trial);
-
-			var learning_timeline = {												// learning task with own internal timeline (learning trial + fixation, defined above)
-				timeline_variables: words_learning,
-				randomize_order: true,
-				timeline: [fixation_trial, learning_trial]	
-			}	
-			timeline.push(learning_timeline)
-*/
-
-/*
-	} else if (encoding_condition == "incidental"){
-		
-			if (words_learning_block1[0]["data"]["orienting"] == "rhyme"){
-
-						var learning_instruction_trial = {							// learning instruction for "rhyme"
-							type: 'html-button-response',
-							stimulus: '<p> Aufgabe: Lernen </p>' + '<p> Die werden nacheinander einige Wörter gezeigt. Bilde einen Reim für jedes Wort (z.B.  Haus - Maus)! </p>',
-							choices: ['Los!']
-						};
-						timeline.push(learning_instruction_trial);
-						
-						var learning_timeline = {												// learning task for "rhyme"
-							timeline_variables: words_learning_block1,
-							randomize_order: true,
-							timeline: [fixation_trial, learning_trial]	
-						}	
-						timeline.push(learning_timeline)
-
-						var learning_instruction_trial = {							// learning instruction for "adjective"
-							type: 'html-button-response',
-							stimulus: '<p> Aufgabe: Lernen </p>' + '<p> Die werden nacheinander einige Wörter gezeigt. Bilde einen Adjektiv für jedes Wort (z.B.  Haus - groß)! </p>',
-							choices: ['Los!']
-						};
-						timeline.push(learning_instruction_trial);		
-						
-						var learning_timeline = {												// learning task for "adjective"
-							timeline_variables: words_learning_block2,
-							randomize_order: true,
-							timeline: [fixation_trial, learning_trial]	
-						}	
-						timeline.push(learning_timeline)
-
-			} else {
-
-						var learning_instruction_trial = {							// learning instruction for "adjective"
-							type: 'html-button-response',
-							stimulus: '<p> Aufgabe: Lernen </p>' + '<p> Die werden nacheinander einige Wörter gezeigt. Bilde ein Adjektiv für jedes Wort (z.B.  Haus - groß)! </p>',
-							choices: ['Los!']
-						};
-						timeline.push(learning_instruction_trial);
-						
-						var learning_timeline = {												// learning task for "adjective"
-							timeline_variables: words_learning_block1,
-							randomize_order: true,
-							timeline: [fixation_trial, learning_trial]	
-						}	
-						timeline.push(learning_timeline)
-
-						var learning_instruction_trial = {							// learning instruction for "rhyme"
-							type: 'html-button-response',
-							stimulus: '<p> Aufgabe: Lernen </p>' + '<p> Die werden nacheinander einige Wörter gezeigt. Bilde einen Reim für jedes Wort (z.B.  Haus - Maus)! </p>',
-							choices: ['Los!']
-						};
-						timeline.push(learning_instruction_trial);		
-						
-						var learning_timeline = {												// learning task for "rhyme"
-							timeline_variables: words_learning_block2,
-							randomize_order: true,
-							timeline: [fixation_trial, learning_trial]	
-						}	
-						timeline.push(learning_timeline)
-			}
-*/
-	}
 
 	// add a STM recall, if condition == STM
 	if (rehearsal_condition == "STM"){
 
 			var recall_instruction_trial = {				//  recall instruction
 				type: 'html-button-response',
-				stimulus: '<p> In der nächsten Aufgabe sollst du dich an alle Wörter zu erinnern, die du gerade gesehen hast. Versuche dich auch an die Wörter zu erinnern, die du nicht ausdrücklich lernen solltest! </p>' + '<p> </p>',
+				stimulus: '<p> In der dieser Aufgabe sollst du dich an alle Wörter zu erinnern, die du gerade gesehen hast. Versuche dich auch an die Wörter zu erinnern, die du nicht ausdrücklich lernen solltest! </p>' + '<p> </p>',
 				choices: ['Los!']
 			};
 			timeline.push(recall_instruction_trial);
