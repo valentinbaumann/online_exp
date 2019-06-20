@@ -41,11 +41,6 @@
 	var encoding_condition_array = ["incidental_semantic", "incidental_perceptual", "intentional"]
 	encoding_condition_array = jsPsych.randomization.shuffle(encoding_condition_array)    // shuffle array
 	
-	/*
-	var encoding_condition = encoding_condition_array[0]      // get first element
-	jsPsych.data.addProperties({encoding_condition: encoding_condition});	// adds condition variable to all trials in the data
-	console.log("encoding_condition: " + encoding_condition);
-	*/
 
 	// create rehearsal condition variable
 	var rehearsal_condition_array = ["STM", "noSTM"]
@@ -56,25 +51,36 @@
 	console.log("rehearsal_condition: " + rehearsal_condition);
 
 
-	// complete learning list (should be dividable by three, since there are three encoding conditions!)
-	var words_learning= [
-		{word: 'Muffin (alt)', data: {trial_code: 'learning', block: 99, encoding_condition: "none"}},
-		{word: 'Keks (alt)', data: {trial_code: 'learning', block: 99, encoding_condition: "none"}},
-		{word: 'Torte (alt)', data: {trial_code: 'learning', block: 99, encoding_condition: "none"}},
-		{word: 'Kuchen (alt)', data: {trial_code: 'learning', block: 99, encoding_condition: "none"}},
-		{word: 'Stollen (alt)', data: {trial_code: 'learning', block: 99, encoding_condition: "none"}},
-		{word: 'Croissant (alt)', data: {trial_code: 'learning', block: 99, encoding_condition: "none"}},
+	// prepare learning lists for the three conditions
+	var words_learning_incidental_semantic = [
+		{word: 'MÄDCHEN', data: {trial_code: 'learning', block: 99, encoding_condition: "none", target: "living"}},
+		{word: 'RAUPE', data: {trial_code: 'learning', block: 99, encoding_condition: "none", target: "living"}},
+		{word: 'BAUM', data: {trial_code: 'learning', block: 99, encoding_condition: "none", target: "living"}},
+		{word: 'GABEL', data: {trial_code: 'learning', block: 99, encoding_condition: "none", target: "non_living"}},
+		{word: 'RADIO', data: {trial_code: 'learning', block: 99, encoding_condition: "none", target: "non_living"}},
+		{word: 'BROT', data: {trial_code: 'learning', block: 99, encoding_condition: "none", target: "non_living"}},
 	];
-
-	// shuffle learning list
-	words_learning = jsPsych.randomization.shuffle(words_learning) ;
-
-	// split learning list evenly across the three conditions
-	// slice() includes the start element but omits the end element!
-	var words_learning_slice1 = words_learning.slice(0, words_learning.length / 3);		// take 1st part of learning list for 
-	var words_learning_slice2 = words_learning.slice(words_learning.length / 3, (words_learning.length / 3)*2);		// take 2nd part of learning list 
-	var words_learning_slice3 = words_learning.slice((words_learning.length / 3)*2, words_learning.length); 	// take 3rd part of learning list 
-
+	words_learning_incidental_semantic = jsPsych.randomization.shuffle(words_learning_incidental_semantic) ;			// shuffle learning list
+	
+	var words_learning_incidental_perceptual = [
+		{word: 'STRAUCH', data: {trial_code: 'learning', block: 99, encoding_condition: "none", target: "no_e"}},
+		{word: 'KÖNIG', data: {trial_code: 'learning', block: 99, encoding_condition: "none", target: "no_e"}},
+		{word: 'PILZ', data: {trial_code: 'learning', block: 99, encoding_condition: "none", target: "no_e"}},
+		{word: 'ENTE', data: {trial_code: 'learning', block: 99, encoding_condition: "none", target: "e"}},
+		{word: 'FREUND', data: {trial_code: 'learning', block: 99, encoding_condition: "none", target: "e"}},
+		{word: 'FEUER', data: {trial_code: 'learning', block: 99, encoding_condition: "none", target: "e"}},
+	];
+	words_learning_incidental_perceptual = jsPsych.randomization.shuffle(words_learning_incidental_perceptual) ;		// shuffle learning list
+	
+	var words_learning_intentional = [
+		{word: 'SCHUH', data: {trial_code: 'learning', block: 99, encoding_condition: "none"}},
+		{word: 'KATZE', data: {trial_code: 'learning', block: 99, encoding_condition: "none"}},
+		{word: 'HUND', data: {trial_code: 'learning', block: 99, encoding_condition: "none"}},
+		{word: 'SCHLOSS', data: {trial_code: 'learning', block: 99, encoding_condition: "none"}},
+		{word: 'BRILLE', data: {trial_code: 'learning', block: 99, encoding_condition: "none"}},
+		{word: 'WOLF', data: {trial_code: 'learning', block: 99, encoding_condition: "none"}},
+	];
+	words_learning_intentional = jsPsych.randomization.shuffle(words_learning_intentional) ;							// shuffle learning list
 	
 
 
@@ -139,7 +145,7 @@
 	// welcome instruction
 	var welcome_instruction_trial = {
 		type: 'html-button-response',
-    stimulus: '<p> Willkommen! <br> <br> Ankas & Lindas coole Masterarbeit </p>',
+    stimulus: '<p> Willkommen! <br> <br> Ankas & Lindas coole Masterarbeit, Tag 1 </p>',
 		choices: ['Los!']
 	};
 	timeline.push(welcome_instruction_trial);
@@ -154,7 +160,7 @@
 	// biographic data
 	var survey_trial = {
 		type: 'survey-text',
-		questions: [{prompt: "höchster Bildungsabschluss:"}, {prompt: "Wie alt bist du?"}, {prompt: "Geschlecht?"}],
+		questions: [{prompt: "Wie alt bist du?"}, {prompt: "Was ist dein Geschlecht?"}, {prompt: "Was ist dein höchster Bildungsabschluss?"},],
 	};
 	timeline.push(survey_trial); 
 
@@ -176,9 +182,9 @@
 					// update current word list slice with information on block and condition
 					// somehow, this also updates the original learning list (maybe slice() does not create independent copies?)
 					var i																																		// counting variable needs to be defined out of the loop
-					for (i = 0; i < words_learning_slice1.length; i = i + 1){
-						words_learning_slice1[i]["data"]["encoding_condition"] = current_block_condition;		// can also be written as ...block1[1].data.encoding_condition
-						words_learning_slice1[i]["data"]["block"] = block_counter + 1;
+					for (i = 0; i < words_learning_incidental_semantic.length; i = i + 1){
+						words_learning_incidental_semantic[i]["data"]["encoding_condition"] = current_block_condition;		// can also be written as ...block1[1].data.encoding_condition
+						words_learning_incidental_semantic[i]["data"]["block"] = block_counter + 1;
 					};
 					
 					var learning_instruction_trial = {
@@ -192,7 +198,7 @@
 					timeline.push(learning_instruction_trial);
 			
 					var learning_timeline = {												// learning task with own internal timeline (learning trial + fixation, defined above)
-						timeline_variables: words_learning_slice1,
+						timeline_variables: words_learning_incidental_semantic,
 						randomize_order: true,
 						timeline: [fixation_trial, learning_trial_incidental_semantic]	
 					}	
@@ -204,9 +210,9 @@
 					// update current word list slice with information on block and condition
 					// somehow, this also updates the original learning list (maybe slice() does not create independent copies?)
 					var i																																		// counting variable needs to be defined out of the loop
-					for (i = 0; i < words_learning_slice2.length; i = i + 1){
-						words_learning_slice2[i]["data"]["encoding_condition"] = current_block_condition;		// can also be written as ...block1[1].data.encoding_condition
-						words_learning_slice2[i]["data"]["block"] = block_counter + 1;
+					for (i = 0; i < words_learning_incidental_perceptual.length; i = i + 1){
+						words_learning_incidental_perceptual[i]["data"]["encoding_condition"] = current_block_condition;		// can also be written as ...block1[1].data.encoding_condition
+						words_learning_incidental_perceptual[i]["data"]["block"] = block_counter + 1;
 					};
 					
 					var learning_instruction_trial = {
@@ -220,7 +226,7 @@
 					timeline.push(learning_instruction_trial);
 
 					var learning_timeline = {												// learning task with own internal timeline (learning trial + fixation, defined above)
-						timeline_variables: words_learning_slice2,
+						timeline_variables: words_learning_incidental_perceptual,
 						randomize_order: true,
 						timeline: [fixation_trial, learning_trial_incidental_perceptual]	
 					}	
@@ -233,9 +239,9 @@
 					// update current word list slice with information on block and condition
 					// somehow, this also updates the original learning list (maybe slice() does not create independent copies?)
 					var i																																		// counting variable needs to be defined out of the loop
-					for (i = 0; i < words_learning_slice3.length; i = i + 1){
-						words_learning_slice3[i]["data"]["encoding_condition"] = current_block_condition;		// can also be written as ...block1[1].data.encoding_condition
-						words_learning_slice3[i]["data"]["block"] = block_counter + 1;
+					for (i = 0; i < words_learning_intentional.length; i = i + 1){
+						words_learning_intentional[i]["data"]["encoding_condition"] = current_block_condition;		// can also be written as ...block1[1].data.encoding_condition
+						words_learning_intentional[i]["data"]["block"] = block_counter + 1;
 					};
 					
 					var learning_instruction_trial = {
@@ -247,7 +253,7 @@
 					timeline.push(learning_instruction_trial);
 					
 					var learning_timeline = {												// learning task with own internal timeline (learning trial + fixation, defined above)
-						timeline_variables: words_learning_slice3,
+						timeline_variables: words_learning_intentional,
 						randomize_order: true,
 						timeline: [fixation_trial, learning_trial_intentional]	
 					}	
@@ -257,6 +263,14 @@
 
 	} // end learning block loop
 
+
+	// buffer task 
+	var buffer_trial = {
+		type: 'html-button-response',
+		stimulus: '<p> - placeholder for buffer task - </p>',
+		choices: ['Ok']
+	};
+	timeline.push(buffer_trial);
 
 
 	// add a STM recall, if condition == STM
@@ -279,8 +293,8 @@
 	// end trial
 	var end_trial = {
 		type: 'html-button-response',
-		stimulus: '<p>Ende</p>',
-		choices: ['Ende!']
+		stimulus: '<p>Vielen Dank! Ende des Experiments! </p>',
+		choices: ['Ok!']
 	};
 	timeline.push(end_trial);
    

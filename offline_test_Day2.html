@@ -7,18 +7,8 @@
   <meta charset="UTF-8"/>
   
   <!-- name of experiment -->
-  <title>recognition</title>  
+  <title>online_test_Day1</title>  
   
-  <!-- loads jspsych plugins (online) -->
-  <!--
-  <script type="text/javascript" src="lib/vendors/jspsych-6.0.5/jspsych.js"></script>
-  <link rel="stylesheet" type="text/css" href="lib/vendors/jspsych-6.0.5/css/jspsych.css"/>
-  <script type="text/javascript" src="lib/vendors/jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js"></script>
-  <script type="text/javascript" src="lib/vendors/jspsych-6.0.5/plugins/jspsych-image-keyboard-response.js"></script>
-  <script type="text/javascript" src="lib/vendors/jspsych-6.0.5/plugins/jspsych-html-button-response.js"></script>
-  <script src="lib/vendors/jspsych-6.0.5/plugins/jspsych-survey-text.js"></script> 
-  -->
- 
   <!-- loads jspsych plugins (offline) -->
   <script type="text/javascript" src="jspsych-6.0.5/jspsych.js"></script>
   <link rel="stylesheet" type="text/css" href="jspsych-6.0.5/css/jspsych.css"/>
@@ -46,15 +36,24 @@
 	var console_test = "go console!";
 	console.log(console_test);
   
-  // recognition list 
+	// recognition list 
 	var words_recognition= [
-		{word: 'Muffin (alt)', data: {trial_code: 'recognition', word_validity: 'old'}},
-		{word: 'Keks (alt)', data: {trial_code: 'recognition', word_validity: 'old'}},
-		{word: 'Waffel (neu)', data: {trial_code: 'recognition', word_validity: 'new'}},
-		{word: 'Macaron (neu)', data: {trial_code: 'recognition', word_validity: 'new'}},
+		{word: 'MÄDCHEN', data: {trial_code: 'learning',  property: "old"}},
+		{word: 'RAUPE', data: {trial_code: 'learning',  property: "old"}},
+		{word: 'BAUM', data: {trial_code: 'learning', property: "old"}},
+		{word: 'GABEL', data: {trial_code: 'learning', property: "old"}},
+		{word: 'RADIO', data: {trial_code: 'learning', property: "old"}},
+		{word: 'BROT', data: {trial_code: 'learning', property: "old"}},
+		{word: 'KOMPASS', data: {trial_code: 'learning', property: "new"}},
+		{word: 'BAHN', data: {trial_code: 'learning', property: "new"}},
+		{word: 'HEIZUNG', data: {trial_code: 'learning', property: "new"}},
+		{word: 'TIGER', data: {trial_code: 'learning', property: "new"}},
+		{word: 'HALS', data: {trial_code: 'learning', property: "new"}},
+		{word: 'SAND', data: {trial_code: 'learning', property: "new"}},
 	];
 	
-
+	
+	
 	// create fixation trial
 	var fixation_trial = {
 		type: 'html-keyboard-response',
@@ -66,7 +65,7 @@
     }
 
 	// create recognition trial	
-  var recognition_trial = {
+	var recognition_trial = {
         type: 'html-keyboard-response',
 				stimulus: jsPsych.timelineVariable('word'),
         choices: ['y','n'],
@@ -111,24 +110,39 @@
 	};
 	timeline.push(subject_id_trial); 
  
-	// biographic data
-	var survey_trial = {
+	// expectation check
+	var survey_expectation_trial = {
 		type: 'survey-text',
-		questions: [{prompt: "Wie viele Stunden hast du letzte Nacht geschlafen:"}, {prompt: "was denkst du wird deine nächste Aufgabe sein?"},],
+		questions: [{prompt: "Was denkst du wird heute deine Aufgabe sein?", rows: 5, columns: 60},],
 	};
-	timeline.push(survey_trial); 
+	timeline.push(survey_expectation_trial); 
+
+	// expectation check
+	var survey_sleep_trial = {
+		type: 'survey-text',
+		questions: [{prompt: "Wie viele Stunden hast du in der letzten Nacht geschlafen?", rows: 1, columns: 1},],
+	};
+	timeline.push(survey_sleep_trial); 
+
+	// recall instruction
+	var recall_instruction_trial = {		
+		type: 'html-button-response',
+		stimulus: '<p> In der dieser Aufgabe sollst du dich an alle Wörter zu erinnern, die du gerade gesehen hast. Versuche dich auch an die Wörter zu erinnern, die du nicht ausdrücklich lernen solltest! </p>' + '<p> </p>',
+		choices: ['Los!']
+		};
+		timeline.push(recall_instruction_trial);
 
 	// recall task
-	var recall_trial = {
+	var recall_trial = {		
 		type: 'survey-text',
-		questions: [{prompt: "Bitte schreibe alle Wörter auf, an die du dich noch erinnern kannst", rows: 20, columns: 40}],
-	};
+		questions: [{prompt: "Bitte notiere alle Wörter, an die du dich noch erinnern kannst. Schreibe dabei jedes Wort in eine neue Zeile und achte darauf, dass es richtig geschrieben ist.", rows: 20, columns: 40}],
+		};
 	timeline.push(recall_trial); 
 
 	// recognition instruction 
 	var recognition_instruction_trial = {
 		type: 'html-button-response',
-    stimulus: '<p> Aufgabe: Wiedererkennen </p>' + '<p>Dir werden nacheinander einige Worte gezeigt.</p>'+
+		stimulus: '<p> Nächste Aufgabe: Wiedererkennen </p>' + '<p> Dir werden nacheinander die Worte von gestern, aber auch neue Worte gezeigt.</p>'+
 		'<p>Druecke Y wenn du ein Wort gestern schon gesehen hast.</p><p>Druecke N, wenn du ein Wort gestern noch nicht gesehen hast.</p>',
 		choices: ['Los!']
 	};
@@ -152,7 +166,6 @@
    
 
 
-		
 	///////////////////////////////////////////////////////
 	// start experiment
 
