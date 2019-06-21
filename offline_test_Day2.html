@@ -7,7 +7,7 @@
   <meta charset="UTF-8"/>
   
   <!-- name of experiment -->
-  <title>online_test_Day1</title>  
+  <title>online_test_Day2</title>  
   
   <!-- loads jspsych plugins (offline) -->
   <script type="text/javascript" src="jspsych-6.0.5/jspsych.js"></script>
@@ -38,18 +38,18 @@
   
 	// recognition list 
 	var words_recognition= [
-		{word: 'MÄDCHEN', data: {trial_code: 'learning',  property: "old"}},
-		{word: 'RAUPE', data: {trial_code: 'learning',  property: "old"}},
-		{word: 'BAUM', data: {trial_code: 'learning', property: "old"}},
-		{word: 'GABEL', data: {trial_code: 'learning', property: "old"}},
-		{word: 'RADIO', data: {trial_code: 'learning', property: "old"}},
-		{word: 'BROT', data: {trial_code: 'learning', property: "old"}},
-		{word: 'KOMPASS', data: {trial_code: 'learning', property: "new"}},
-		{word: 'BAHN', data: {trial_code: 'learning', property: "new"}},
-		{word: 'HEIZUNG', data: {trial_code: 'learning', property: "new"}},
-		{word: 'TIGER', data: {trial_code: 'learning', property: "new"}},
-		{word: 'HALS', data: {trial_code: 'learning', property: "new"}},
-		{word: 'SAND', data: {trial_code: 'learning', property: "new"}},
+		{word: 'MÄDCHEN', data: {trial_code: 'recognition',  property: "old"}},
+		{word: 'RAUPE', data: {trial_code: 'recognition',  property: "old"}},
+		{word: 'BAUM', data: {trial_code: 'recognition', property: "old"}},
+		{word: 'GABEL', data: {trial_code: 'recognition', property: "old"}},
+		{word: 'RADIO', data: {trial_code: 'recognition', property: "old"}},
+		{word: 'BROT', data: {trial_code: 'recognition', property: "old"}},
+		{word: 'KOMPASS', data: {trial_code: 'recognition', property: "new"}},
+		{word: 'BAHN', data: {trial_code: 'recognition', property: "new"}},
+		{word: 'HEIZUNG', data: {trial_code: 'recognition', property: "new"}},
+		{word: 'TIGER', data: {trial_code: 'recognition', property: "new"}},
+		{word: 'HALS', data: {trial_code: 'recognition', property: "new"}},
+		{word: 'SAND', data: {trial_code: 'recognition', property: "new"}},
 	];
 	
 	
@@ -98,7 +98,7 @@
 	// welcome instruction
 	var welcome_instruction_trial = {
 		type: 'html-button-response',
-    stimulus: '<p> Willkommen! <br> <br> Ankas & Lindas Masterarbeit Tag 2 </p>',
+		stimulus: '<p> Willkommen! <br> <br> Ankas & Lindas Masterarbeit Tag 2 </p>',
 		choices: ['Los!']
 	};
 	timeline.push(welcome_instruction_trial);
@@ -143,7 +143,7 @@
 	var recognition_instruction_trial = {
 		type: 'html-button-response',
 		stimulus: '<p> Nächste Aufgabe: Wiedererkennen </p>' + '<p> Dir werden nacheinander die Worte von gestern, aber auch neue Worte gezeigt.</p>'+
-		'<p>Druecke Y wenn du ein Wort gestern schon gesehen hast.</p><p>Druecke N, wenn du ein Wort gestern noch nicht gesehen hast.</p>',
+		'<p>Ü Y wenn du ein Wort gestern schon gesehen hast.</p><p>DrÜcke N, wenn du ein Wort gestern noch nicht gesehen hast.</p>',
 		choices: ['Los!']
 	};
 	timeline.push(recognition_instruction_trial);
