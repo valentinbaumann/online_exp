@@ -81,7 +81,13 @@
 		{word: 'WOLF', data: {trial_code: 'learning', block: 99, encoding_condition: "none"}},
 	];
 	words_learning_intentional = jsPsych.randomization.shuffle(words_learning_intentional) ;							// shuffle learning list
-	
+
+	var math_tasks = [
+		{task: '16 * 12 =', data: {trial_code: 'math_task', block: 99, task: '16 * 12 =', answer: "192"}},
+		{task: '8 * 14 =', data: {trial_code: 'math_task', block: 99, task: '8 * 14 =', answer: "112"}},
+		{task: '17 * 3 =', data: {trial_code: 'math_task', block: 99, task: '17 * 3 =', answer: "51"}},
+	];
+	math_tasks = jsPsych.randomization.shuffle(math_tasks) ;	
 
 
 
@@ -93,7 +99,7 @@
 		type: 'html-keyboard-response',
     stimulus: '<div style="font-size:60px;">+</div>',
     choices: jsPsych.NO_KEYS,
-		trial_duration: 1000,
+		trial_duration: 1500,
 		post_trial_gap: 0,
 		data: {trial_code: 'fixation'}
     }
@@ -103,7 +109,7 @@
         type: 'html-keyboard-response',
 		stimulus: jsPsych.timelineVariable('word'),
         choices: jsPsych.NO_KEYS,
-		trial_duration: 1500,
+		trial_duration: 2000,
         post_trial_gap: 0,
 		data: jsPsych.timelineVariable('data'),
 	};			
@@ -114,7 +120,7 @@
 		stimulus: jsPsych.timelineVariable('word'),
         choices: ["l", "n"],
 		prompt: "<p> <br> <br> Drücke 'L' für lebendig </p> <p> Drücke 'N' für nicht lebendig </p>", 
-		trial_duration: 1500,
+		trial_duration: 2000,
         post_trial_gap: 0,
 		data: jsPsych.timelineVariable('data'),
 	};			
@@ -125,14 +131,32 @@
 		stimulus: jsPsych.timelineVariable('word'),
         choices: ["e", "n"],
 		prompt: "<p> <br> <br> Drücke 'E' wenn das Wort ein 'E' enthält </p> <p> Drücke 'N' wenn das Wort kein 'E' enthält. </p>", 
-		trial_duration: 1500,
+		trial_duration: 2000,
         post_trial_gap: 0,
 		data: jsPsych.timelineVariable('data'),
 	};		
 
+	// create buffer trial
+	var math_trial = {
+		type: 'survey-text',
+		questions: [{prompt: jsPsych.timelineVariable('task'), rows: 1, columns: 5}],
+		post_trial_gap: 0,
+		data: jsPsych.timelineVariable('data'),
+	};		
+
+	// feedback trial
+	var feedback_trial = {
+		type: 'html-button-response',
+		stimulus: '<p> Gut gemacht! Bereit für die nächste Aufgabe? </p>',
+		choices: ['Los!']
+	};
+
+
+
+
 
 	///////////////////////////////////////////////////////
-	// define the final trials
+	// start the experiment
 
 	var fullscreen_trial = {
 		type: 'fullscreen',
@@ -145,7 +169,7 @@
 	// welcome instruction
 	var welcome_instruction_trial = {
 		type: 'html-button-response',
-    stimulus: '<p> Willkommen! <br> <br> Ankas & Lindas coole Masterarbeit, Tag 1 </p>',
+		stimulus: '<p> Willkommen! <br> <br> Ankas & Lindas coole Masterarbeit, Tag 1 </p>',
 		choices: ['Los!']
 	};
 	timeline.push(welcome_instruction_trial);
@@ -164,18 +188,22 @@
 	};
 	timeline.push(survey_trial); 
 
+	// initial feedback trial
+	var initial_feedback_trial = {
+		type: 'html-button-response',
+		stimulus: '<p> Vielen Dank! <br> <br> Bereit für die erste Aufgabe? </p>',
+		choices: ['Los!']
+	};
+	timeline.push(initial_feedback_trial);
 
 
-	
 	// start learning task blocks
-	
 	var block_counter																																		// counting variable needs to be defined out of the loop
 	for (block_counter = 0; block_counter < encoding_condition_array.length; block_counter	 = block_counter + 1){
 		
 		// get the current block
 		var current_block_condition = encoding_condition_array[block_counter];
 		console.log("current_block: " + current_block_condition);
-		
 		
 			if (current_block_condition == "incidental_semantic"){
 			
@@ -203,7 +231,29 @@
 						timeline: [fixation_trial, learning_trial_incidental_semantic]	
 					}	
 					timeline.push(learning_timeline)
-			
+					
+					timeline.push(feedback_trial);
+					
+					var math_instruction_trial = {
+						type: 'html-button-response',
+						stimulus: 	'<p> Aufgabe: Rechnen  </p>' + 
+									'<p> Dir werden nacheinander einige Rechenaufgaben gezeigt, deren Lösung du über die Tastatur eingeben kannst. </p>' + 
+									'<p> Antworte so schnell und so korrekt wie möglich! </p>',
+						choices: ['Los!']
+					};
+					timeline.push(math_instruction_trial);
+
+					var math_timeline = {												// learning task with own internal timeline (learning trial + fixation, defined above)
+						timeline_variables: math_tasks,
+						randomize_order: true,
+						timeline: [fixation_trial, math_trial]	
+					}	
+					timeline.push(math_timeline)
+					
+					// show feedback, except for the last block
+					if (block_counter < 2){
+						timeline.push(feedback_trial);
+					};
 			
 			} else if (current_block_condition == "incidental_perceptual"){
 			
@@ -231,8 +281,29 @@
 						timeline: [fixation_trial, learning_trial_incidental_perceptual]	
 					}	
 					timeline.push(learning_timeline)
-			
+					
+					timeline.push(feedback_trial);
+					
+					var math_instruction_trial = {
+						type: 'html-button-response',
+						stimulus: 	'<p> Aufgabe: Rechnen  </p>' + 
+									'<p> Dir werden nacheinander einige Rechenaufgaben gezeigt, deren Lösung du über die Tastatur eingeben kannst. </p>' + 
+									'<p> Antworte so schnell und so korrekt wie möglich! </p>',
+						choices: ['Los!']
+					};
+					timeline.push(math_instruction_trial);
 
+					var math_timeline = {												// learning task with own internal timeline (learning trial + fixation, defined above)
+						timeline_variables: math_tasks,
+						randomize_order: true,
+						timeline: [fixation_trial, math_trial]	
+					}	
+					timeline.push(math_timeline)			
+					
+					// show feedback, except for the last block
+					if (block_counter < 2){
+						timeline.push(feedback_trial);
+					};
 
 			} else if (current_block_condition == "intentional"){
 
@@ -258,24 +329,40 @@
 						timeline: [fixation_trial, learning_trial_intentional]	
 					}	
 					timeline.push(learning_timeline)
-			
+					
+					timeline.push(feedback_trial);
+					
+					var math_instruction_trial = {
+						type: 'html-button-response',
+						stimulus: 	'<p> Aufgabe: Rechnen  </p>' + 
+									'<p> Dir werden nacheinander einige Rechenaufgaben gezeigt, deren Lösung du über die Tastatur eingeben kannst. </p>' + 
+									'<p> Antworte so schnell und so korrekt wie möglich! </p>',
+						choices: ['Los!']
+					};
+					timeline.push(math_instruction_trial);
+
+					var math_timeline = {												// learning task with own internal timeline (learning trial + fixation, defined above)
+						timeline_variables: math_tasks,
+						randomize_order: true,
+						timeline: [fixation_trial, math_trial]	
+					}	
+					timeline.push(math_timeline)	
+					
+					// show feedback, except for the last block
+					if (block_counter < 2){
+						timeline.push(feedback_trial);
+					};
 			}
 
 	} // end learning block loop
 
 
-	// buffer task 
-	var buffer_trial = {
-		type: 'html-button-response',
-		stimulus: '<p> - placeholder for buffer task - </p>',
-		choices: ['Ok']
-	};
-	timeline.push(buffer_trial);
-
 
 	// add a STM recall, if condition == STM
 	if (rehearsal_condition == "STM"){
 
+			timeline.push(feedback_trial);
+			
 			var recall_instruction_trial = {				//  recall instruction
 				type: 'html-button-response',
 				stimulus: '<p> In der dieser Aufgabe sollst du dich an alle Wörter zu erinnern, die du gerade gesehen hast. Versuche dich auch an die Wörter zu erinnern, die du nicht ausdrücklich lernen solltest! </p>' + '<p> </p>',
@@ -293,7 +380,7 @@
 	// end trial
 	var end_trial = {
 		type: 'html-button-response',
-		stimulus: '<p>Vielen Dank! Ende des Experiments! </p>',
+		stimulus: '<p> Gut gemacht <br> <br> Vielen Dank! Ende des Experiments! </p>',
 		choices: ['Ok!']
 	};
 	timeline.push(end_trial);
