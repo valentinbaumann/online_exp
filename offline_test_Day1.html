@@ -126,7 +126,7 @@
 	var learning_trial_incidental_semantic = {
         type: 'html-keyboard-response',
 		stimulus: jsPsych.timelineVariable('word'),
-        choices: ["l", "n"],
+        choices: ["y", "n"],
 		// prompt: "<p> <br> <br> Drücke 'L' für lebendig </p> <p> Drücke 'N' für nicht lebendig </p>", 
 		trial_duration: 2000,
         post_trial_gap: 0,
@@ -137,7 +137,7 @@
 	var learning_trial_incidental_perceptual = {
         type: 'html-keyboard-response',
 		stimulus: jsPsych.timelineVariable('word'),
-        choices: ["e", "n"],
+        choices: ["y", "n"],
 		// prompt: "<p> <br> <br> Drücke 'E' wenn das Wort ein 'E' enthält </p> <p> Drücke 'N' wenn das Wort kein 'E' enthält. </p>", 
 		trial_duration: 2000,
         post_trial_gap: 0,
@@ -169,7 +169,7 @@
 	var fullscreen_trial = {
 		type: 'fullscreen',
 		message: '',
-		button_label: ['Start and enter fullscreen mode'],
+		button_label: ['Start!'],
 		fullscreen_mode: true,
 	}
 	timeline.push(fullscreen_trial);
@@ -186,12 +186,14 @@
 	var subject_id_trial = {
 		type: 'survey-text',
 		questions: [{prompt: "Bitte gib deinen persönlichen Probandencode ein:"}],
+		button_label: 'Ok!',
 	};
 	timeline.push(subject_id_trial); 
  
 	// biographic data
 	var survey_trial = {
 		type: 'survey-text',
+		button_label: 'Ok!',
 		questions: [{prompt: "Wie alt bist du?"}, {prompt: "Was ist dein Geschlecht?"}, {prompt: "Was ist dein höchster Bildungsabschluss?"},],
 	};
 	timeline.push(survey_trial); 
@@ -374,12 +376,13 @@
 			var recall_instruction_trial = {				//  recall instruction
 				type: 'html-button-response',
 				stimulus: '<p> In der dieser Aufgabe sollst du dich an alle Wörter zu erinnern, die du gerade gesehen hast. Versuche dich auch an die Wörter zu erinnern, die du nicht ausdrücklich lernen solltest! </p>' + '<p> </p>',
-				choices: ['Los!']
+				choices: ['Los!'],
 			};
 			timeline.push(recall_instruction_trial);
 
 			var recall_trial = {										// recall task
 				type: 'survey-text',
+				button_label: 'Ok!',
 				questions: [{prompt: "Bitte notiere alle Wörter, an die du dich noch erinnern kannst. Schreibe dabei jedes Wort in eine neue Zeile und achte darauf, dass es richtig geschrieben ist.", rows: 20, columns: 40}],
 			};
 			timeline.push(recall_trial); 
@@ -388,7 +391,7 @@
 	// end trial
 	var end_trial = {
 		type: 'html-button-response',
-		stimulus: '<p> Gut gemacht <br> <br> Vielen Dank! Ende des Experiments! </p>',
+		stimulus: '<p> Gut gemacht, vielen Dank!  <br> <br> Ende des Experiments! Bitte bei dem/der Versuchsleiter/in melden. </p>',
 		choices: ['Ok!']
 	};
 	timeline.push(end_trial);
