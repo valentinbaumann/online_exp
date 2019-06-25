@@ -82,14 +82,21 @@
 	];
 	words_learning_intentional = jsPsych.randomization.shuffle(words_learning_intentional) ;							// shuffle learning list
 
+	// prepare list with buffer tasks
 	var math_tasks = [
 		{task: '16 * 12 =', data: {trial_code: 'math_task', block: 99, task: '16 * 12 =', answer: "192"}},
 		{task: '8 * 14 =', data: {trial_code: 'math_task', block: 99, task: '8 * 14 =', answer: "112"}},
 		{task: '17 * 3 =', data: {trial_code: 'math_task', block: 99, task: '17 * 3 =', answer: "51"}},
+		{task: '3 * 36 =', data: {trial_code: 'math_task', block: 99, task: '3 * 36 =', answer: "108"}},
+		{task: '7 * 16 =', data: {trial_code: 'math_task', block: 99, task: '7 * 16 =', answer: "112"}},
+		{task: '18 * 6 =', data: {trial_code: 'math_task', block: 99, task: '18 * 6 =', answer: "108"}},
 	];
 	math_tasks = jsPsych.randomization.shuffle(math_tasks) ;	
-
-
+	
+	// divide buffer tasks into 3 parts (one after each learning block)
+	var math_tasks_slice1 = math_tasks.slice(0, math_tasks.length / 3);								// take 1st part
+	var math_tasks_slice2 = math_tasks.slice(math_tasks.length / 3, (math_tasks.length / 3) * 2);	// 2nd part	
+	var math_tasks_slice3 = math_tasks.slice(math_tasks.length / 3) * 2, math_tasks.length);		// 3rd part
 
 
 	///////////////////////////////////////////////////////
@@ -120,7 +127,7 @@
         type: 'html-keyboard-response',
 		stimulus: jsPsych.timelineVariable('word'),
         choices: ["l", "n"],
-		prompt: "<p> <br> <br> Drücke 'L' für lebendig </p> <p> Drücke 'N' für nicht lebendig </p>", 
+		// prompt: "<p> <br> <br> Drücke 'L' für lebendig </p> <p> Drücke 'N' für nicht lebendig </p>", 
 		trial_duration: 2000,
         post_trial_gap: 0,
 		data: jsPsych.timelineVariable('data'),
@@ -131,7 +138,7 @@
         type: 'html-keyboard-response',
 		stimulus: jsPsych.timelineVariable('word'),
         choices: ["e", "n"],
-		prompt: "<p> <br> <br> Drücke 'E' wenn das Wort ein 'E' enthält </p> <p> Drücke 'N' wenn das Wort kein 'E' enthält. </p>", 
+		// prompt: "<p> <br> <br> Drücke 'E' wenn das Wort ein 'E' enthält </p> <p> Drücke 'N' wenn das Wort kein 'E' enthält. </p>", 
 		trial_duration: 2000,
         post_trial_gap: 0,
 		data: jsPsych.timelineVariable('data'),
@@ -220,7 +227,7 @@
 						type: 'html-button-response',
 						stimulus: 	'<p> Aufgabe: Lebendig - Nicht lebendig  </p>' + 
 									'<p> Dir werden nacheinander einige Wörter gezeigt. Entscheide für jedes Wort, ob das Wort ein Lebewesen oder ein nicht lebendes Objekt darstellt! </p>' + 
-									'<p> <br> <br> Drücke "L" für lebendig </p> <p> Drücke "N" für nicht lebendig </p>' +
+									'<p> <br> <br> Drücke "Y" für lebendig </p> <p> Drücke "N" für nicht lebendig </p>' +
 									'<p> Antworte so schnell und so korrekt wie möglich! </p>',
 						choices: ['Los!']
 					};
@@ -245,7 +252,7 @@
 					timeline.push(math_instruction_trial);
 
 					var math_timeline = {												// learning task with own internal timeline (learning trial + fixation, defined above)
-						timeline_variables: math_tasks,
+						timeline_variables: math_tasks_slice1,
 						randomize_order: true,
 						timeline: [fixation_trial, math_trial]	
 					}	
@@ -270,7 +277,7 @@
 						type: 'html-button-response',
 						stimulus: 	'<p> Aufgabe: E - kein E  </p>' + 
 									'<p> Dir werden nacheinander einige Wörter gezeigt. Entscheide für jedes Wort, ob das Wort ein "E" oder ein nicht lebendes Objekt darstellt! </p>' + 
-									'<p> <br> <br> Drücke "E" wenn das Wort ein "E" enthält </p> <p> Drücke "N" wenn das Wort kein "E" enthält. </p>' +
+									'<p> <br> <br> Drücke "Y" wenn das Wort ein "E" enthält </p> <p> Drücke "N" wenn das Wort kein "E" enthält. </p>' +
 									'<p> Antworte so schnell und so korrekt wie möglich! </p>',
 						choices: ['Los!']
 					};
@@ -295,7 +302,7 @@
 					timeline.push(math_instruction_trial);
 
 					var math_timeline = {												// learning task with own internal timeline (learning trial + fixation, defined above)
-						timeline_variables: math_tasks,
+						timeline_variables: math_tasks_slice2,
 						randomize_order: true,
 						timeline: [fixation_trial, math_trial]	
 					}	
@@ -343,7 +350,7 @@
 					timeline.push(math_instruction_trial);
 
 					var math_timeline = {												// learning task with own internal timeline (learning trial + fixation, defined above)
-						timeline_variables: math_tasks,
+						timeline_variables: math_tasks_slice3,
 						randomize_order: true,
 						timeline: [fixation_trial, math_trial]	
 					}	
