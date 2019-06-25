@@ -178,7 +178,8 @@
 	var welcome_instruction_trial = {
 		type: 'html-button-response',
 		stimulus: '<p> Willkommen! <br> <br> Ankas & Lindas coole Masterarbeit, Tag 1 </p>',
-		choices: ['Los!']
+		choices: ['Los!'],
+		data: {day: "day1"},
 	};
 	timeline.push(welcome_instruction_trial);
 
@@ -187,16 +188,18 @@
 		type: 'survey-text',
 		questions: [{prompt: "Bitte gib deinen persönlichen Probandencode ein:"}],
 		button_label: 'Ok!',
+		data: {trial_code: "subject"}, 
 	};
 	timeline.push(subject_id_trial); 
  
 	// biographic data
-	var survey_trial = {
+	var survey_biographic_trial = {
 		type: 'survey-text',
 		button_label: 'Ok!',
 		questions: [{prompt: "Wie alt bist du?"}, {prompt: "Was ist dein Geschlecht?"}, {prompt: "Was ist dein höchster Bildungsabschluss?"},],
+		data: {trial_code: "biographic_data"}, 
 	};
-	timeline.push(survey_trial); 
+	timeline.push(survey_biographic_trial); 
 
 	// initial feedback trial
 	var initial_feedback_trial = {
@@ -384,6 +387,7 @@
 				type: 'survey-text',
 				button_label: 'Ok!',
 				questions: [{prompt: "Bitte notiere alle Wörter, an die du dich noch erinnern kannst. Schreibe dabei jedes Wort in eine neue Zeile und achte darauf, dass es richtig geschrieben ist.", rows: 20, columns: 40}],
+				data: {trial_code: "STM_recall"}, 
 			};
 			timeline.push(recall_trial); 
 	}
