@@ -100,6 +100,7 @@
 		type: 'html-button-response',
 		stimulus: '<p> Willkommen! <br> <br> Ankas & Lindas Masterarbeit Tag 2 </p>',
 		choices: ['Los!'],
+		data: {day: "day2"}, 
 	};
 	timeline.push(welcome_instruction_trial);
 
@@ -107,6 +108,7 @@
 	var subject_id_trial = {
 		type: 'survey-text',
 		questions: [{prompt: "Bitte gib deinen persönlichen Probandencode ein:"}],
+		data: {trial_code: "subject"}, 
 	};
 	timeline.push(subject_id_trial); 
  
@@ -114,6 +116,7 @@
 	var survey_expectation_trial = {
 		type: 'survey-text',
 		questions: [{prompt: "Was denkst du wird heute deine Aufgabe sein?", rows: 5, columns: 60},],
+		data: {trial_code: "expectation"}, 
 	};
 	timeline.push(survey_expectation_trial); 
 
@@ -121,6 +124,7 @@
 	var survey_sleep_trial = {
 		type: 'survey-text',
 		questions: [{prompt: "Wie viele Stunden hast du in der letzten Nacht geschlafen?", rows: 1, columns: 1},],
+		data: {trial_code: "sleep"}, 
 	};
 	timeline.push(survey_sleep_trial); 
 
@@ -136,7 +140,8 @@
 	var recall_trial = {		
 		type: 'survey-text',
 		questions: [{prompt: "Bitte notiere alle Wörter, an die du dich noch erinnern kannst. Schreibe dabei jedes Wort in eine neue Zeile und achte darauf, dass es richtig geschrieben ist.", rows: 20, columns: 40}],
-		};
+		data: {trial_code: "LTM_recall"}, 
+	};
 	timeline.push(recall_trial); 
 
 	// recognition instruction 
