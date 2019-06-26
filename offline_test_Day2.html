@@ -10,13 +10,17 @@
   <title>online_test_Day2</title>  
   
   <!-- loads jspsych plugins (offline) -->
-  <script type="text/javascript" src="jspsych-6.0.5/jspsych.js"></script>
-  <link rel="stylesheet" type="text/css" href="jspsych-6.0.5/css/jspsych.css"/>
-  <script type="text/javascript" src="jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js"></script>
-  <script type="text/javascript" src="jspsych-6.0.5/plugins/jspsych-image-keyboard-response.js"></script>
+	<script type="text/javascript" src="jspsych-6.0.5/jspsych.js"></script>
+	<link rel="stylesheet" type="text/css" href="jspsych-6.0.5/css/jspsych.css"/>
+	<script type="text/javascript" src="jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js"></script>
+	<script type="text/javascript" src="jspsych-6.0.5/plugins/jspsych-image-keyboard-response.js"></script>
 	<script type="text/javascript" src="jspsych-6.0.5/plugins/jspsych-html-button-response.js"></script>
 	<script type="text/javascript" src="jspsych-6.0.5/plugins/jspsych-fullscreen.js"></script>
-  <script src="jspsych-6.0.5/plugins/jspsych-survey-text.js"></script> 
+	<script src="jspsych-6.0.5/plugins/jspsych-survey-text.js"></script> 
+	<script type="text/javascript" src="jspsych-6.0.5/plugins/jspsych-survey-likert.js"></script>
+	<script type="text/javascript" src="jspsych-6.0.5/plugins/jspsych-survey-multi-choice.js"></script>
+   
+   
 
 </head>
 
@@ -36,7 +40,7 @@
 	var console_test = "go console!";
 	console.log(console_test);
   
-	// recognition list 
+	// prepare recognition list 
 	var words_recognition= [
 		{word: 'MÄDCHEN', data: {trial_code: 'recognition',  property: "old"}},
 		{word: 'RAUPE', data: {trial_code: 'recognition',  property: "old"}},
@@ -53,6 +57,8 @@
 	];
 	
 	
+	///////////////////////////////////////////////////////
+	// prepare trials within secondary timelines	
 	
 	// create fixation trial
 	var fixation_trial = {
@@ -81,12 +87,28 @@
           jsPsych.data.addDataToLastTrial({correct: correct});
 				}
 				*/
-  };
+	};
+
+	// feedback trial
+	var feedback_trial = {
+		type: 'html-button-response',
+		stimulus: '<p> Gut gemacht! Bereit für die nächste Aufgabe? </p>',
+		choices: ['Los!']
+	};
+
+	///////////////////////////////////////////////////////
+	// prepare multiple choice answers and likert scales
+	var likert_sleep = ["viel weniger", "etwas weniger", "gleich viel", "etwas mehr", "viel mehr"];
+	var likert_novelty = [ "gar nicht", "eher nicht", "weder noch", "eher", "sehr" ];
+	var likert_yes_no = ["ja", "nein"];
+
 
 
 	///////////////////////////////////////////////////////
-	// define trials
+	// start the experiment
 
+
+/*
 	var fullscreen_trial = {
 		type: 'fullscreen',
 		message: '',
@@ -108,6 +130,7 @@
 	var subject_id_trial = {
 		type: 'survey-text',
 		questions: [{prompt: "Bitte gib deinen persönlichen Probandencode ein:"}],
+		button_label: 'Ok!',
 		data: {trial_code: "subject"}, 
 	};
 	timeline.push(subject_id_trial); 
@@ -116,17 +139,12 @@
 	var survey_expectation_trial = {
 		type: 'survey-text',
 		questions: [{prompt: "Was denkst du wird heute deine Aufgabe sein?", rows: 5, columns: 60},],
+		button_label: 'Ok!',
 		data: {trial_code: "expectation"}, 
 	};
 	timeline.push(survey_expectation_trial); 
 
-	// expectation check
-	var survey_sleep_trial = {
-		type: 'survey-text',
-		questions: [{prompt: "Wie viele Stunden hast du in der letzten Nacht geschlafen?", rows: 1, columns: 1},],
-		data: {trial_code: "sleep"}, 
-	};
-	timeline.push(survey_sleep_trial); 
+	timeline.push(feedback_trial);
 
 	// recall instruction
 	var recall_instruction_trial = {		
@@ -144,11 +162,13 @@
 	};
 	timeline.push(recall_trial); 
 
+	timeline.push(fullscreen_trial);
+
 	// recognition instruction 
 	var recognition_instruction_trial = {
 		type: 'html-button-response',
 		stimulus: '<p> Nächste Aufgabe: Wiedererkennen </p>' + '<p> Dir werden nacheinander die Worte von gestern, aber auch neue Worte gezeigt.</p>'+
-		'<p> Drücke Y wenn du ein Wort gestern schon gesehen hast.</p><p> Drücke N, wenn du ein Wort gestern noch nicht gesehen hast.</p>',
+		'<p> Drücke Y wenn du ein Wort gestern schon gesehen hast - auch bei den Wörtern, die du nicht ausdrücklich lernen solltest.</p><p> Drücke N, wenn du ein Wort gestern noch nicht gesehen hast.</p>',
 		choices: ['Los!']
 	};
 	timeline.push(recognition_instruction_trial);
@@ -161,10 +181,120 @@
 	}	
 	timeline.push(recognition_timeline)
 
+*/
+
+
+	/////////////////////////////////////
+	// follow up
+	
+	var instruction_follow_up_trial = {
+		type: 'html-button-response',
+		stimulus: '<p> Gut gemacht, vielen Dank! Zum Schluss noch einige Fragen. </p>',
+		choices: ['Los']
+	};
+	timeline.push(instruction_follow_up_trial); 	
+	
+	var survey_strategies_yes_no_trial = {
+		type: 'survey-likert',
+		questions: [{prompt: " Hast du gestern beim Lernen der Wörter eine Strategie benutzt, um dir die Wörter besser merken zu können? <br> Zum Beispiel eine Geschichte ausdenken, Begriffe zusammen fassen, innerlich vorsagen... ", labels: likert_yes_no}],
+    	button_label: 'Ok!',
+		data: {trial_code: "survey_strategies_yes_no"}, 
+	};
+	timeline.push(survey_strategies_yes_no_trial); 	
+
+	var survey_strategies_detail_trial = {
+		type: 'survey-text',
+		questions: [{prompt: 	"Wenn du Strategien benutzt hast, welche waren das?" + 
+								"<br> Wenn du keine Strategie benutzt hast, drücke 'Ok!'", rows: 10, columns: 50},],
+		button_label: 'Ok!',
+		data: {trial_code: "strategies_detail"}, 
+	};
+	timeline.push(survey_strategies_detail_trial); 
+
+	var survey_expectation_STM_trial = {
+		type: 'survey-likert',
+		questions: [{prompt: " Du solltest gestern einige Wörter lernen. Hast du erwartet gleich danach abgefragt zu werden? ", labels: likert_yes_no}],
+    	button_label: 'Ok!',
+		data: {trial_code: "expectation_STM"}, 
+	};
+	timeline.push(survey_expectation_STM_trial); 	
+
+	var survey_rehearsal_trial = {
+		type: 'survey-likert',
+		questions: [{prompt: "Hast Du die Wörter gestern nach dem Experiment aktiv wiederholt oder geübt?", labels: likert_yes_no}],
+    	button_label: 'Ok!',
+		data: {trial_code: "rehearsal"}, 
+	};
+	timeline.push(survey_rehearsal_trial); 
+
+	var survey_sleep_absolute_trial = {
+		type: 'survey-text',
+		questions: [{prompt: "Wie viele Stunden hast du in der letzten Nacht geschlafen?", rows: 1, columns: 2},],
+		button_label: 'Ok!',
+		data: {trial_code: "sleep_absolute"}, 
+	};
+	timeline.push(survey_sleep_absolute_trial); 
+
+	var survey_sleep_relative_trial = {
+		type: 'survey-likert',
+		questions: [{prompt: "Wie viel hast du gestern geschlafen, verglichen mit deiner normalen Schlafdauer?", labels: likert_sleep}],
+		button_label: "Ok!",
+	};
+	timeline.push(survey_sleep_relative_trial);	
+
+	var survey_drugs_yes_no_trial = {
+		type: 'survey-likert',
+		questions: [{prompt: "Hast du gestern Alkohol oder andere Drogen zu dir genommen?", labels: likert_yes_no}],
+    	button_label: 'Ok!',
+		data: {trial_code: "drugs_yes_no"}, 
+	};
+	timeline.push(survey_drugs_yes_no_trial); 
+
+	var survey_drugs_detail_trial = {
+	type: 'survey-text',
+	questions: [{prompt: "Wenn ja, was und wie viel? <br> Wenn du keinen Alkohol oder andere Drogen zu dir genommen hast, drücke 'Ok!' ", rows: 10, columns: 50},],
+	button_label: 'Ok!',
+	data: {trial_code: "drugs_detail"}, 
+	};
+	timeline.push(survey_drugs_detail_trial); 
+
+	var survey_novelty_test_situation_detail_trial = {
+		type: 'survey-likert',
+		questions: [{prompt: "Wie neu oder ungewöhnlich war die Testsituation gestern für dich?", labels: likert_novelty}],
+    	button_label: 'Ok!',
+		data: {trial_code: "novelty_test_situation_detail"}, 
+	};
+	timeline.push(survey_novelty_test_situation_detail_trial); 
+
+	var survey_arousal_test_situation_detail_trial = {
+		type: 'survey-likert',
+		questions: [{prompt: "Wie aufregend war die Testsituation gestern für dich?", labels: likert_novelty}],
+    	button_label: 'Ok!',
+		data: {trial_code: "arousal_test_situation_detail"}, 
+	};
+	timeline.push(survey_arousal_test_situation_detail_trial); 
+
+	var survey_novelty_halo_yes_no_trial = {
+		type: 'survey-likert',
+		questions: [{prompt: "Ist in der Stunde vor oder nach dem Experiment etwas ungewöhnliches oder sehr Aufregendes passiert?", labels: likert_yes_no}],
+    	button_label: 'Ok!',
+		data: {trial_code: "novelty_halo_yes_no"}, 
+	};
+	timeline.push(survey_novelty_halo_yes_no_trial); 
+
+	var survey_novelty_halo_detail_trial = {
+		type: 'survey-likert',
+		questions: [{prompt: "Wenn ja, wie ungewöhnlich oder aufregend war dieses Erlebnis für dich?", labels: likert_novelty}],
+    	button_label: 'Ok!',
+		data: {trial_code: "novelty_halo_detail"}, 
+	};
+	timeline.push(survey_novelty_halo_detail_trial); 
+
+
 	// end trial
 	var end_trial = {
 		type: 'html-button-response',
-		stimulus: '<p>Vielen Dank! Ende des Experiments!</p>',
+		stimulus: '<p>Gut gemacht, vielen Dank! <br><br> Ende des Experiments! Bitte bei dem/der Versuchsleiter/in melden.</p>',
 		choices: ['Ok']
 	};
 	timeline.push(end_trial);
