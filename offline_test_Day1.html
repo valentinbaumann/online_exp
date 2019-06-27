@@ -41,7 +41,6 @@
 	var encoding_condition_array = ["incidental_semantic", "incidental_perceptual", "intentional"]
 	encoding_condition_array = jsPsych.randomization.shuffle(encoding_condition_array)    // shuffle array
 	
-
 	// create rehearsal condition variable
 	var rehearsal_condition_array = ["STM", "noSTM"]
 	rehearsal_condition_array = jsPsych.randomization.shuffle(rehearsal_condition_array)    // shuffle array
@@ -186,7 +185,14 @@
 		type: 'survey-text',
 		questions: [{prompt: "Bitte gib deinen persönlichen Probandencode ein:"}],
 		button_label: 'Ok!',
-		data: {trial_code: "subject"}, 
+		data: {trial_code: "subject_id"},
+		on_finish: function(data){
+			subject_id = JSON.parse(data.responses).Q0;
+			console.log(data.subject_id);
+			jsPsych.data.addProperties({
+				subject_id: subject_id,
+			});
+		},		
 	};
 	timeline.push(subject_id_trial); 
  
