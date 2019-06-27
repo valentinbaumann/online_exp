@@ -119,10 +119,16 @@
 		type: 'survey-text',
 		questions: [{prompt: "Bitte gib deinen persönlichen Probandencode ein:"}],
 		button_label: 'Ok!',
-		data: {trial_code: "subject"}, 
+		data: {trial_code: "subject_id"}, 
+		on_finish: function(data){
+			subject_id = JSON.parse(data.responses).Q0;
+			jsPsych.data.addProperties({
+				subject_id: subject_id,
+			});
+		},
 	};
 	timeline.push(subject_id_trial); 
- 
+
 	// expectation check
 	var survey_expectation_trial = {
 		type: 'survey-text',
@@ -167,7 +173,6 @@
 
 
 
-
 	/////////////////////////////////////
 	// follow up
 	
@@ -182,7 +187,7 @@
 		type: 'survey-likert',
 		questions: [{prompt: " Hast du gestern beim Lernen der Wörter eine Strategie benutzt, um dir die Wörter besser merken zu können? <br> Zum Beispiel eine Geschichte ausdenken, Begriffe zusammen fassen, innerlich vorsagen... ", labels: likert_yes_no}],
     	button_label: 'Ok!',
-		data: {trial_code: "survey_strategies_yes_no"}, 
+		data: {trial_code: "strategies_yes_no"}, 
 	};
 	timeline.push(survey_strategies_yes_no_trial); 	
 
@@ -192,8 +197,8 @@
 								"<br> Wenn du keine Strategie benutzt hast, drücke 'Ok!'", rows: 10, columns: 50},],
 		button_label: 'Ok!',
 		data: {trial_code: "strategies_detail"}, 
-	};
-	timeline.push(survey_strategies_detail_trial); 
+		};
+		timeline.push(survey_strategies_detail_trial); 
 
 	var survey_expectation_STM_trial = {
 		type: 'survey-likert',
@@ -223,6 +228,7 @@
 		type: 'survey-likert',
 		questions: [{prompt: "Wie viel hast du gestern geschlafen, verglichen mit deiner normalen Schlafdauer?", labels: likert_sleep}],
 		button_label: "Ok!",
+		data: {trial_code: "sleep_relative"}, 		
 	};
 	timeline.push(survey_sleep_relative_trial);	
 
