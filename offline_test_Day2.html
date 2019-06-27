@@ -67,7 +67,7 @@
     choices: jsPsych.NO_KEYS,
 		trial_duration: 1500,
 		post_trial_gap: 0,
-		data: {trial_code: 'fixation'}
+		data: {trial_code: 'fixation'},
     }
 
 	// create recognition trial	
@@ -76,17 +76,7 @@
 				stimulus: jsPsych.timelineVariable('word'),
         choices: ['y','n'],
         post_trial_gap: 0,
-				data: jsPsych.timelineVariable('data'),
-				/*
-				on_finish: function(data){
-          if(data.word_validity == 'old'){
-            var correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode('y');
-          } else {
-            var correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode('n');
-          }
-          jsPsych.data.addDataToLastTrial({correct: correct});
-				}
-				*/
+		data: jsPsych.timelineVariable('data'),
 	};
 
 	// feedback trial
@@ -107,8 +97,6 @@
 	///////////////////////////////////////////////////////
 	// start the experiment
 
-
-/*
 	var fullscreen_trial = {
 		type: 'fullscreen',
 		message: '',
@@ -144,12 +132,10 @@
 	};
 	timeline.push(survey_expectation_trial); 
 
-	timeline.push(feedback_trial);
-
 	// recall instruction
 	var recall_instruction_trial = {		
 		type: 'html-button-response',
-		stimulus: '<p> In der dieser Aufgabe sollst du dich an alle Wörter zu erinnern, die du gerade gesehen hast. Versuche dich auch an die Wörter zu erinnern, die du nicht ausdrücklich lernen solltest! </p>' + '<p> </p>',
+		stimulus: '<p> Vielen Dank! In der ersten Aufgabe heute sollst du versuchen dich an ALLE Wörter zu erinnern, die du gerade gesehen hast. <br> Versuche dich auch an die Wörter zu erinnern, die du nicht ausdrücklich lernen solltest! </p>' + '<p> </p>',
 		choices: ['Los!']
 		};
 		timeline.push(recall_instruction_trial);
@@ -162,12 +148,10 @@
 	};
 	timeline.push(recall_trial); 
 
-	timeline.push(fullscreen_trial);
-
 	// recognition instruction 
 	var recognition_instruction_trial = {
 		type: 'html-button-response',
-		stimulus: '<p> Nächste Aufgabe: Wiedererkennen </p>' + '<p> Dir werden nacheinander die Worte von gestern, aber auch neue Worte gezeigt.</p>'+
+		stimulus: '<p> Nächste Aufgabe: Wiedererkennen </p>' + '<p> Dir werden nacheinander alle Worte von gestern, aber auch neue Worte gezeigt.</p>'+
 		'<p> Drücke Y wenn du ein Wort gestern schon gesehen hast - auch bei den Wörtern, die du nicht ausdrücklich lernen solltest.</p><p> Drücke N, wenn du ein Wort gestern noch nicht gesehen hast.</p>',
 		choices: ['Los!']
 	};
@@ -175,13 +159,13 @@
 
 	// recognition task with own internal timeline (recognition trial + fixation)
 	var recognition_timeline = {
-    timeline_variables: words_recognition,
-    randomize_order: true,
-    timeline: [fixation_trial, recognition_trial]	
+		timeline_variables: words_recognition,
+		randomize_order: true,
+		timeline: [fixation_trial, recognition_trial]	
 	}	
-	timeline.push(recognition_timeline)
+	timeline.push(recognition_timeline);
 
-*/
+
 
 
 	/////////////////////////////////////
@@ -251,10 +235,10 @@
 	timeline.push(survey_drugs_yes_no_trial); 
 
 	var survey_drugs_detail_trial = {
-	type: 'survey-text',
-	questions: [{prompt: "Wenn ja, was und wie viel? <br> Wenn du keinen Alkohol oder andere Drogen zu dir genommen hast, drücke 'Ok!' ", rows: 10, columns: 50},],
-	button_label: 'Ok!',
-	data: {trial_code: "drugs_detail"}, 
+		type: 'survey-text',
+		questions: [{prompt: "Wenn ja, was und wie viel? <br> Wenn du keinen Alkohol oder andere Drogen zu dir genommen hast, drücke 'Ok!' ", rows: 10, columns: 50},],
+		button_label: 'Ok!',
+		data: {trial_code: "drugs_detail"}, 
 	};
 	timeline.push(survey_drugs_detail_trial); 
 
@@ -276,7 +260,7 @@
 
 	var survey_novelty_halo_yes_no_trial = {
 		type: 'survey-likert',
-		questions: [{prompt: "Ist in der Stunde vor oder nach dem Experiment etwas ungewöhnliches oder sehr Aufregendes passiert?", labels: likert_yes_no}],
+		questions: [{prompt: "Ist in der Stunde vor oder nach dem Experiment etwas Ungewöhnliches oder sehr Aufregendes passiert?", labels: likert_yes_no}],
     	button_label: 'Ok!',
 		data: {trial_code: "novelty_halo_yes_no"}, 
 	};
@@ -284,12 +268,11 @@
 
 	var survey_novelty_halo_detail_trial = {
 		type: 'survey-likert',
-		questions: [{prompt: "Wenn ja, wie ungewöhnlich oder aufregend war dieses Erlebnis für dich?", labels: likert_novelty}],
+		questions: [{prompt: "Wenn ja, wie ungewöhnlich oder aufregend war dieses Erlebnis für dich? <br> Wenn nichts Ungewöhnliches oder sehr Aufregendes passiert ist, weiter mit 'Ok!' ", labels: likert_novelty}],
     	button_label: 'Ok!',
 		data: {trial_code: "novelty_halo_detail"}, 
 	};
 	timeline.push(survey_novelty_halo_detail_trial); 
-
 
 	// end trial
 	var end_trial = {
