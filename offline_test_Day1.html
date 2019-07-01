@@ -125,8 +125,7 @@
 	var learning_trial_incidental_semantic = {
         type: 'html-keyboard-response',
 		stimulus: jsPsych.timelineVariable('word'),
-        choices: ["y", "n"],
-		// prompt: "<p> <br> <br> Drücke 'L' für lebendig </p> <p> Drücke 'N' für nicht lebendig </p>", 
+        choices: [37, 39], 								// left and right arrow key
 		trial_duration: 2000,
         post_trial_gap: 0,
 		data: jsPsych.timelineVariable('data'),
@@ -136,8 +135,7 @@
 	var learning_trial_incidental_perceptual = {
         type: 'html-keyboard-response',
 		stimulus: jsPsych.timelineVariable('word'),
-        choices: ["y", "n"],
-		// prompt: "<p> <br> <br> Drücke 'E' wenn das Wort ein 'E' enthält </p> <p> Drücke 'N' wenn das Wort kein 'E' enthält. </p>", 
+        choices: [37, 39],								// left and right arrow key
 		trial_duration: 2000,
         post_trial_gap: 0,
 		data: jsPsych.timelineVariable('data'),
@@ -236,7 +234,7 @@
 						type: 'html-button-response',
 						stimulus: 	'<p> Aufgabe: Lebendig - Nicht lebendig  </p>' + 
 									'<p> Dir werden nacheinander einige Wörter gezeigt. Entscheide für jedes Wort, ob das Wort ein Lebewesen oder ein nicht lebendes Objekt darstellt! </p>' + 
-									'<p> <br> <br> Drücke "Y" für lebendig </p> <p> Drücke "N" für nicht lebendig </p>' +
+									'<p> <br> <br> Drücke die <b>linke Pfeiltaste</b> für lebendig </p> <p> Drücke die <b>rechte Pfeiltaste</b> für nicht lebendig </p>' +
 									'<p> Antworte so schnell und so korrekt wie möglich! </p>',
 						choices: ['Los!']
 					};
@@ -285,8 +283,8 @@
 					var learning_instruction_trial = {
 						type: 'html-button-response',
 						stimulus: 	'<p> Aufgabe: E - kein E  </p>' + 
-									'<p> Dir werden nacheinander einige Wörter gezeigt. Entscheide für jedes Wort, ob das Wort ein "E" oder ein nicht lebendes Objekt darstellt! </p>' + 
-									'<p> <br> <br> Drücke "Y" wenn das Wort ein "E" enthält </p> <p> Drücke "N" wenn das Wort kein "E" enthält. </p>' +
+									'<p> Dir werden nacheinander einige Wörter gezeigt. Entscheide für jedes Wort, ob das Wort ein "E" enthält oder nicht! </p>' + 
+									'<p> <br> <br> Drücke die <b>linke Pfeiltaste</b> wenn das Wort ein "E" enthält </p> <p> Drücke die <b>rechte Pfeiltaste</b> wenn das Wort kein "E" enthält. </p>' +
 									'<p> Antworte so schnell und so korrekt wie möglich! </p>',
 						choices: ['Los!']
 					};

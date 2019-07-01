@@ -74,7 +74,7 @@
 	var recognition_trial = {
         type: 'html-keyboard-response',
 				stimulus: jsPsych.timelineVariable('word'),
-        choices: ['y','n'],
+        choices: [37,39],
         post_trial_gap: 0,
 		data: jsPsych.timelineVariable('data'),
 	};
@@ -158,7 +158,7 @@
 	var recognition_instruction_trial = {
 		type: 'html-button-response',
 		stimulus: '<p> Nächste Aufgabe: Wiedererkennen </p>' + '<p> Dir werden nacheinander alle Worte von gestern, aber auch neue Worte gezeigt.</p>'+
-		'<p> Drücke Y wenn du ein Wort gestern schon gesehen hast - auch bei den Wörtern, die du nicht ausdrücklich lernen solltest.</p><p> Drücke N, wenn du ein Wort gestern noch nicht gesehen hast.</p>',
+		'<p> Drücke die <b>linke Pfeiltaste</b>, wenn du ein Wort gestern schon gesehen hast - auch bei den Wörtern, die du nicht ausdrücklich lernen solltest.</p><p> Drücke die <b>rechte Pfeiltaste</b>, wenn du ein Wort gestern noch nicht gesehen hast.</p>',
 		choices: ['Los!']
 	};
 	timeline.push(recognition_instruction_trial);
