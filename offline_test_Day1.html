@@ -166,12 +166,38 @@
 
 	// prepare list with buffer tasks (number of tasks needs to be dividable by three!)
 	var math_tasks = [
-		{task: '16 * 12 =', data: {trial_code: 'math_task', task: '16 * 12 =', answer: "192"}},
-		{task: '8 * 14 =', data: {trial_code: 'math_task', task: '8 * 14 =', answer: "112"}},
-		{task: '17 * 3 =', data: {trial_code: 'math_task', task: '17 * 3 =', answer: "51"}},
-		{task: '3 * 36 =', data: {trial_code: 'math_task', task: '3 * 36 =', answer: "108"}},
-		{task: '7 * 16 =', data: {trial_code: 'math_task', task: '7 * 16 =', answer: "112"}},
-		{task: '18 * 6 =', data: {trial_code: 'math_task', task: '18 * 6 =', answer: "108"}},
+		{task: '49 + 25 =', data: {trial_code: 'math_task', task: '49 + 25', answer: "74"}},
+		{task: '86 + 12 =', data: {trial_code: 'math_task', task: '86 + 12', answer: "98"}},
+		{task: '25 + 64 =', data: {trial_code: 'math_task', task: '25 + 64', answer: "89"}},
+		{task: '34 + 51 =', data: {trial_code: 'math_task', task: '34 + 51', answer: "86"}},
+		{task: '51 + 72 =', data: {trial_code: 'math_task', task: '51 + 72', answer: "123"}},
+		{task: '13 + 86 =', data: {trial_code: 'math_task', task: '13 + 86', answer: "99"}},
+		/*
+		{task: '62 + 33 =', data: {trial_code: 'math_task', task: '62 + 33', answer: "95"}},
+		{task: '78 + 47 =', data: {trial_code: 'math_task', task: '78 + 47', answer: "125"}},
+		{task: '97 + 98 =', data: {trial_code: 'math_task', task: '97 + 98', answer: "195"}},
+		{task: '26 + 39 =', data: {trial_code: 'math_task', task: '26 + 39', answer: "65"}},
+		{task: '74 + 12 =', data: {trial_code: 'math_task', task: '74 + 12', answer: "86"}},
+		{task: '61 + 93 =', data: {trial_code: 'math_task', task: '61 + 93', answer: "154"}},
+		{task: '87 + 45 =', data: {trial_code: 'math_task', task: '87 + 45', answer: "132"}},
+		{task: '58 + 86 =', data: {trial_code: 'math_task', task: '58 + 86', answer: "144"}},
+		{task: '39 + 24 =', data: {trial_code: 'math_task', task: '39 + 24', answer: "63"}},
+		{task: '21 - 19 =', data: {trial_code: 'math_task', task: '21 - 19', answer: "2"}},
+		{task: '91 - 65 =', data: {trial_code: 'math_task', task: '91 - 65', answer: "26"}},
+		{task: '62 - 58 =', data: {trial_code: 'math_task', task: '62 - 58', answer: "4"}},		
+		{task: '85 - 16 =', data: {trial_code: 'math_task', task: '85 - 16', answer: "69"}},
+		{task: '36 - 23 =', data: {trial_code: 'math_task', task: '36 - 23', answer: "13"}},
+		{task: '43 - 24 =', data: {trial_code: 'math_task', task: '43 - 24 =', answer: "19"}},		
+		{task: '73 - 39 =', data: {trial_code: 'math_task', task: '73 - 39', answer: "34"}},
+		{task: '52 - 47 =', data: {trial_code: 'math_task', task: '52 - 47', answer: "5"}},
+		{task: '45 - 37 =', data: {trial_code: 'math_task', task: '45 - 37', answer: "8"}},
+		{task: '88 - 74 =', data: {trial_code: 'math_task', task: '88 - 74', answer: "14"}},
+		{task: '34 - 31 =', data: {trial_code: 'math_task', task: '34 - 31', answer: "3"}},
+		{task: '74 - 41 =', data: {trial_code: 'math_task', task: '74 - 41 =', answer: "33"}},		
+		{task: '69 - 52 =', data: {trial_code: 'math_task', task: '69 - 52', answer: "17"}},
+		{task: '96 - 48 =', data: {trial_code: 'math_task', task: '96 - 48', answer: "48"}},
+		{task: '57 - 15 =', data: {trial_code: 'math_task', task: '57 - 15', answer: "42"}},	
+		*/
 	];
 	math_tasks = jsPsych.randomization.shuffle(math_tasks) ;	
 	
@@ -264,7 +290,7 @@
  	// subject ID
 	var subject_id_trial = {
 		type: 'survey-text',
-		questions: [{prompt: "Bitte gib deinen persönlichen Probandencode ein:"}],
+		questions: [{prompt: "Bitte gib hier deinen persönlichen Probandencode ein. <br> Der Code setzt sich zusammen aus: <br> <br> - dem dritten Buchstaben des Vornamens deiner Mutter, <br> - dem dritten Buchstaben des Vornamens deines Vaters, <br> - dem dritten Buchstaben deines Geburtsortes, <br> - dem Tag deines Geburtstags. <br> <br> (z.B. <b>'GNR02'</b> für 'Inge', 'Hans', 'Berlin', '02.05.1990') <br> ", rows: 1, columns: 8}],
 		button_label: 'Ok!',
 		data: {trial_code: "subject_id"},
 		on_finish: function(data){
@@ -276,6 +302,12 @@
 	};
 	timeline.push(subject_id_trial); 
  
+ 
+	var interaction_data = jsPsych.data.getInteractionData();
+	// log data to console in json format
+	console.log(interaction_data.json());
+ 
+	/*
 	// age
 	var survey_age_trial = {
 		type: 'survey-text',
@@ -320,6 +352,8 @@
 		},	
 	};
 	timeline.push(survey_education_trial); 
+	*/
+	
 	
 	// initial feedback trial
 	var initial_feedback_trial = {
