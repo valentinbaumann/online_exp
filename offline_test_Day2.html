@@ -294,18 +294,18 @@
  	// subject ID
 	var subject_id_trial = {
 		type: 'survey-text',
-		questions: [{prompt: "Bitte gib deinen persönlichen Probandencode ein:"}],
+		questions: [{prompt: "Bitte gib hier deinen persönlichen Probandencode ein. <br> Der Code setzt sich zusammen aus: <br> <br> - dem dritten Buchstaben des Vornamens deiner Mutter, <br> - dem dritten Buchstaben des Vornamens deines Vaters, <br> - dem dritten Buchstaben deines Geburtsortes, <br> - dem Tag deines Geburtstags. <br> <br> (z.B. <b>'GNR02'</b> für 'Inge', 'Hans', 'Berlin', '02.05.1990') <br> ", rows: 1, columns: 8}],
 		button_label: 'Ok!',
-		data: {trial_code: "subject_id"}, 
+		data: {trial_code: "subject_id"},
 		on_finish: function(data){
 			subject_id = JSON.parse(data.responses).Q0;
 			jsPsych.data.addProperties({
 				subject_id: subject_id,
 			});
-		},
+		},		
 	};
 	timeline.push(subject_id_trial); 
-
+ 
 	// expectation check
 	var survey_expectation_trial = {
 		type: 'survey-text',
