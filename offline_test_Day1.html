@@ -42,10 +42,7 @@
 	encoding_condition_array = jsPsych.randomization.shuffle(encoding_condition_array)    // shuffle array
 	
 	// create rehearsal condition variable
-	var rehearsal_condition_array = ["STM", "noSTM"]
-	rehearsal_condition_array = jsPsych.randomization.shuffle(rehearsal_condition_array)    // shuffle array
-	
-	var rehearsal_condition = rehearsal_condition_array[0]      // get first element
+	var rehearsal_condition = "noSTM",
 	jsPsych.data.addProperties({rehearsal_condition: rehearsal_condition});	// adds condition variable to all trials in the data
 	console.log("rehearsal_condition: " + rehearsal_condition);
 
