@@ -19,7 +19,9 @@
 	<script src="jspsych-6.0.5/plugins/jspsych-survey-text.js"></script> 
 	<script type="text/javascript" src="jspsych-6.0.5/plugins/jspsych-survey-likert.js"></script>
 	<script type="text/javascript" src="jspsych-6.0.5/plugins/jspsych-survey-multi-choice.js"></script>
-   
+	<style>
+	.stimulus { font-size: 60px; }
+	</style>  
    
 
 </head>
@@ -40,6 +42,9 @@
 	var console_test = "go console!";
 	console.log(console_test);
   
+	// add day varaible to the data 
+	jsPsych.data.addProperties({day: "day2"});  
+  
 	// prepare recognition list 
 	var words_recognition= [
 
@@ -48,8 +53,6 @@
 		{word: 'BAUER', data: {trial_code: 'recognition',  property: "old", encoding_condition: "incidental_semantic", target: "living"}},
 		{word: 'VOGEL', data: {trial_code: 'recognition',  property: "old", encoding_condition: "incidental_semantic", target: "living"}},
 		{word: 'MALER', data: {trial_code: 'recognition',  property: "old", encoding_condition: "incidental_semantic", target: "living"}},
-		
-		/*
 		{word: 'FISCH', data: {trial_code: 'recognition',  property: "old", encoding_condition: "incidental_semantic", target: "living"}},		
 		{word: 'ROBBE', data: {trial_code: 'recognition',  property: "old", encoding_condition: "incidental_semantic", target: "living"}},
 		{word: 'BRAUT', data: {trial_code: 'recognition',  property: "old", encoding_condition: "incidental_semantic", target: "living"}},
@@ -228,7 +231,6 @@
 		{word: 'DACKEL', data: {trial_code: 'recognition', property: "new"}},
 		{word: 'PINSEL', data: {trial_code: 'recognition', property: "new"}},
 		{word: 'MANTEL', data: {trial_code: 'recognition', property: "new"}},
-		*/
 		
 	];
 	words_recognition = jsPsych.randomization.shuffle(words_recognition) ;			// shuffle recognition list
@@ -240,8 +242,8 @@
 	// create fixation trial
 	var fixation_trial = {
 		type: 'html-keyboard-response',
-    stimulus: '<div style="font-size:60px;">+</div>',
-    choices: jsPsych.NO_KEYS,
+		stimulus: '<div style="font-size:40px;">+</div>',
+		choices: jsPsych.NO_KEYS,
 		trial_duration: 1500,
 		post_trial_gap: 0,
 		data: {trial_code: 'fixation'},
@@ -250,7 +252,8 @@
 	// create recognition trial	
 	var recognition_trial = {
         type: 'html-keyboard-response',
-				stimulus: jsPsych.timelineVariable('word'),
+		prompt: '<pre>alt										neu </pre>',
+		stimulus: jsPsych.timelineVariable('word'),
         choices: [37,39],
         post_trial_gap: 0,
 		data: jsPsych.timelineVariable('data'),
@@ -285,7 +288,7 @@
 	// welcome instruction
 	var welcome_instruction_trial = {
 		type: 'html-button-response',
-		stimulus: '<p> Willkommen! <br> <br> Ankas & Lindas Masterarbeit Tag 2 </p>',
+		stimulus: '<p> Willkommen zurück! <br> <br> Studie Tag 2 </p>',
 		choices: ['Los!'],
 		data: {day: "day2"}, 
 	};
@@ -294,7 +297,7 @@
  	// subject ID
 	var subject_id_trial = {
 		type: 'survey-text',
-		questions: [{prompt: "Bitte gib hier deinen persönlichen Probandencode ein. <br> Der Code setzt sich zusammen aus: <br> <br> - dem dritten Buchstaben des Vornamens deiner Mutter, <br> - dem dritten Buchstaben des Vornamens deines Vaters, <br> - dem dritten Buchstaben deines Geburtsortes, <br> - dem Tag deines Geburtstags. <br> <br> (z.B. <b>'GNR02'</b> für 'Inge', 'Hans', 'Berlin', '02.05.1990') <br> ", rows: 1, columns: 8}],
+		questions: [{prompt: "Bitte gib hier deinen persönlichen Probandencode ein. <br> Der Code setzt sich zusammen aus: <br> <br> - dem dritten Buchstaben des Vornamens deiner Mutter, <br> - dem dritten Buchstaben des Vornamens deines Vaters, <br> - dem dritten Buchstaben deines Geburtsortes, <br> - dem dritten Buchstaben der Straße, in der du wohnst, <br> - dem Tag deines Geburtstags. <br> <br> (z.B. <b>'GNRN02'</b> für 'Inge', 'Hans', 'Berlin', 'Sonnenallee', '02.05.1990') <br> ", rows: 1, columns: 8}],
 		button_label: 'Ok!',
 		data: {trial_code: "subject_id"},
 		on_finish: function(data){
@@ -309,7 +312,7 @@
 	// expectation check
 	var survey_expectation_trial = {
 		type: 'survey-text',
-		questions: [{prompt: "Was denkst du wird heute deine Aufgabe sein?", rows: 5, columns: 60},],
+		questions: [{prompt: "Was denkst du, wird heute deine Aufgabe sein?", rows: 5, columns: 60},],
 		button_label: 'Ok!',
 		data: {trial_code: "expectation"}, 
 	};
@@ -318,7 +321,7 @@
 	// recall instruction
 	var recall_instruction_trial = {		
 		type: 'html-button-response',
-		stimulus: '<p> Vielen Dank! In der ersten Aufgabe heute sollst du versuchen dich an ALLE Wörter zu erinnern, die du gerade gesehen hast. <br> Versuche dich auch an die Wörter zu erinnern, die du nicht ausdrücklich lernen solltest! </p>' + '<p> </p>',
+		stimulus: '<p> Vielen Dank! In der ersten Aufgabe heute sollst du versuchen dich an ALLE Wörter zu erinnern, die du gestern gesehen hast. <br> Versuche dich auch an die Wörter zu erinnern, die du nicht ausdrücklich lernen solltest! </p>' + '<p> </p>',
 		choices: ['Los!']
 		};
 		timeline.push(recall_instruction_trial);
@@ -326,7 +329,7 @@
 	// recall task
 	var recall_trial = {		
 		type: 'survey-text',
-		questions: [{prompt: "Bitte notiere alle Wörter, an die du dich noch erinnern kannst. Bitte trenne jedes neue Wort durch ein Komma ('Wort1', 'Wort2', ...) und achte darauf, dass es richtig geschrieben ist.", rows: 20, columns: 80}],
+		questions: [{prompt: "Bitte notiere alle Wörter, an die du dich noch erinnern kannst! Trenne jedes neue Wort durch ein Komma (Wort1, Wort2, ...).", rows: 20, columns: 80}],
 		data: {trial_code: "LTM_recall"}, 
 	};
 	timeline.push(recall_trial); 
@@ -334,7 +337,7 @@
 	// recognition instruction 
 	var recognition_instruction_trial = {
 		type: 'html-button-response',
-		stimulus: '<p> Nächste Aufgabe: Wiedererkennen </p>' + '<p> Dir werden nacheinander alle Worte von gestern, aber auch neue Worte gezeigt.</p>'+
+		stimulus: '<p> <b>Nächste Aufgabe: Wiedererkennen</b> </p>' + '<p> Dir werden nacheinander alle Worte von gestern, aber auch neue Worte gezeigt.</p>'+
 		'<p> Drücke die <b>linke Pfeiltaste</b>, wenn du ein Wort gestern schon gesehen hast - auch bei den Wörtern, die du nicht ausdrücklich lernen solltest.</p><p> Drücke die <b>rechte Pfeiltaste</b>, wenn du ein Wort gestern noch nicht gesehen hast.</p>',
 		choices: ['Los!']
 	};
@@ -411,7 +414,7 @@
 
 	var survey_drugs_yes_no_trial = {
 		type: 'survey-likert',
-		questions: [{prompt: "Hast du gestern Alkohol oder andere Drogen zu dir genommen?", labels: likert_yes_no}],
+		questions: [{prompt: "Hast du gestern Alkohol, Nikotin oder andere Drogen zu dir genommen?", labels: likert_yes_no}],
     	button_label: 'Ok!',
 		data: {trial_code: "drugs_yes_no"}, 
 	};
@@ -419,7 +422,7 @@
 
 	var survey_drugs_detail_trial = {
 		type: 'survey-text',
-		questions: [{prompt: "Wenn ja, was und wie viel? <br> Wenn du keinen Alkohol oder andere Drogen zu dir genommen hast, drücke 'Ok!' ", rows: 10, columns: 50},],
+		questions: [{prompt: "Wenn ja, was und wie viel? <br> Wenn du keinen Alkohol, Nikotin oder andere Drogen zu dir genommen hast, drücke 'Ok!' ", rows: 10, columns: 50},],
 		button_label: 'Ok!',
 		data: {trial_code: "drugs_detail"}, 
 	};
@@ -443,7 +446,7 @@
 
 	var survey_novelty_halo_yes_no_trial = {
 		type: 'survey-likert',
-		questions: [{prompt: "Ist in der Stunde vor oder nach dem Experiment etwas Ungewöhnliches oder sehr Aufregendes passiert?", labels: likert_yes_no}],
+		questions: [{prompt: "Ist in der Stunde vor oder nach dem Experiment etwas Neues oder Ungewöhnliches passiert?", labels: likert_yes_no}],
     	button_label: 'Ok!',
 		data: {trial_code: "novelty_halo_yes_no"}, 
 	};
@@ -451,7 +454,7 @@
 
 	var survey_novelty_halo_detail_trial = {
 		type: 'survey-likert',
-		questions: [{prompt: "Wenn ja, wie ungewöhnlich oder aufregend war dieses Erlebnis für dich? <br> Wenn nichts Ungewöhnliches oder sehr Aufregendes passiert ist, weiter mit 'Ok!' ", labels: likert_novelty}],
+		questions: [{prompt: "Wenn ja, wie neu oder ungewöhnlich war dieses Erlebnis für dich? <br> Wenn nichts Neues oder Ungewöhnliches passiert ist, weiter mit 'Ok!' ", labels: likert_novelty}],
     	button_label: 'Ok!',
 		data: {trial_code: "novelty_halo_detail"}, 
 	};
@@ -460,7 +463,7 @@
 	// end trial
 	var end_trial = {
 		type: 'html-button-response',
-		stimulus: '<p>Gut gemacht, vielen Dank! <br><br> Ende des Experiments! Bitte bei dem/der Versuchsleiter/in melden.</p>',
+		stimulus: '<p>Gut gemacht, vielen Dank! <br><br> Ende des Experiments! Bitte bei der Versuchsleiter melden.</p>',
 		choices: ['Ok']
 	};
 	timeline.push(end_trial);

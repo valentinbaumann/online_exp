@@ -49,13 +49,13 @@
 	jsPsych.data.addProperties({rehearsal_condition: rehearsal_condition});	// adds condition variable to all trials in the data
 	console.log("rehearsal_condition: " + rehearsal_condition);
 
+	// add day varaible to the data 
+	jsPsych.data.addProperties({day: "day1"});
 
 	// prepare learning lists for the three conditions
 	var words_learning_incidental_semantic = [
 		{word: 'ENTE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "living"}},
 		{word: 'RAUPE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "living"}},
-		
-		/*
 		{word: 'BAUER', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "living"}},
 		{word: 'VOGEL', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "living"}},
 		{word: 'MALER', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "living"}},
@@ -85,15 +85,12 @@
 		{word: 'RAHMEN', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},		
 		{word: 'FLAGGE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},
 		{word: 'KOHLE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},
-		*/
 	];
 	words_learning_incidental_semantic = jsPsych.randomization.shuffle(words_learning_incidental_semantic) ;			// shuffle learning list
 	
 	var words_learning_incidental_perceptual = [
 		{word: 'UNKRAUT', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "no_e"}},
 		{word: 'MILCH', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "no_e"}},
-		
-		/*
 		{word: 'KÜRBIS', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "no_e"}},
 		{word: 'FÖHN', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "no_e"}},
 		{word: 'KOMPASS', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "no_e"}},
@@ -123,15 +120,12 @@
 		{word: 'PUPPE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "e"}},
 		{word: 'RUDER', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "e"}},	
 		{word: 'ORGEL', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "e"}},
-		*/
 	];
 	words_learning_incidental_perceptual = jsPsych.randomization.shuffle(words_learning_incidental_perceptual) ;		// shuffle learning list
 	
 	var words_learning_intentional = [
 		{word: 'AMPEL', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 		{word: 'AUGE', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
-		
-		/*
 		{word: 'BANK', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 		{word: 'BAUM', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 		{word: 'BIENE', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
@@ -160,7 +154,6 @@
 		{word: 'STRASSE', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 		{word: 'TAG', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 		{word: 'TANTE', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
-		*/
 	];
 	words_learning_intentional = jsPsych.randomization.shuffle(words_learning_intentional) ;							// shuffle learning list
 
@@ -172,7 +165,6 @@
 		{task: '34 + 51 =', data: {trial_code: 'math_task', task: '34 + 51', answer: "86"}},
 		{task: '51 + 72 =', data: {trial_code: 'math_task', task: '51 + 72', answer: "123"}},
 		{task: '13 + 86 =', data: {trial_code: 'math_task', task: '13 + 86', answer: "99"}},
-		/*
 		{task: '62 + 33 =', data: {trial_code: 'math_task', task: '62 + 33', answer: "95"}},
 		{task: '78 + 47 =', data: {trial_code: 'math_task', task: '78 + 47', answer: "125"}},
 		{task: '97 + 98 =', data: {trial_code: 'math_task', task: '97 + 98', answer: "195"}},
@@ -197,7 +189,6 @@
 		{task: '69 - 52 =', data: {trial_code: 'math_task', task: '69 - 52', answer: "17"}},
 		{task: '96 - 48 =', data: {trial_code: 'math_task', task: '96 - 48', answer: "48"}},
 		{task: '57 - 15 =', data: {trial_code: 'math_task', task: '57 - 15', answer: "42"}},	
-		*/
 	];
 	math_tasks = jsPsych.randomization.shuffle(math_tasks) ;	
 	
@@ -213,7 +204,7 @@
 	// create fixation trial
 	var fixation_trial = {
 		type: 'html-keyboard-response',
-    stimulus: '<div style="font-size:60px;">+</div>',
+    stimulus: '<div style="font-size:40px;">+</div>',
     choices: jsPsych.NO_KEYS,
 		trial_duration: 1500,
 		post_trial_gap: 0,
@@ -233,6 +224,7 @@
 	// create incidental_semantic learning trial	
 	var learning_trial_incidental_semantic = {
         type: 'html-keyboard-response',
+		prompt: '<pre> lebendig										nicht lebendig </pre>',	// "<pre>" tag allows for predefined html text
 		stimulus: jsPsych.timelineVariable('word'),
         choices: [37, 39], 								// left and right arrow key
 		trial_duration: 2000,
@@ -243,6 +235,7 @@
 	// create incidental_perceptual learning trial	
 	var learning_trial_incidental_perceptual = {
         type: 'html-keyboard-response',
+		prompt: '<pre>"E"										"E" </pre>',
 		stimulus: jsPsych.timelineVariable('word'),
         choices: [37, 39],								// left and right arrow key
 		trial_duration: 2000,
@@ -264,9 +257,7 @@
 		stimulus: '<p> Gut gemacht! Bereit für die nächste Aufgabe? </p>',
 		choices: ['Los!']
 	};
-
 	
-
 	///////////////////////////////////////////////////////
 	// start the experiment
 
@@ -281,16 +272,16 @@
 	// welcome instruction
 	var welcome_instruction_trial = {
 		type: 'html-button-response',
-		stimulus: '<p> Willkommen! <br> <br> Ankas & Lindas coole Masterarbeit, Tag 1 </p>',
+		stimulus: '<p> Willkommen! <br> <br> Studie Tag 1 </p>',
 		choices: ['Los!'],
-		data: {day: "day1"},
+		//data: {day: "day1"},
 	};
 	timeline.push(welcome_instruction_trial);
 
  	// subject ID
 	var subject_id_trial = {
 		type: 'survey-text',
-		questions: [{prompt: "Bitte gib hier deinen persönlichen Probandencode ein. <br> Der Code setzt sich zusammen aus: <br> <br> - dem dritten Buchstaben des Vornamens deiner Mutter, <br> - dem dritten Buchstaben des Vornamens deines Vaters, <br> - dem dritten Buchstaben deines Geburtsortes, <br> - dem Tag deines Geburtstags. <br> <br> (z.B. <b>'GNR02'</b> für 'Inge', 'Hans', 'Berlin', '02.05.1990') <br> ", rows: 1, columns: 8}],
+		questions: [{prompt: "Bitte gib hier deinen persönlichen Probandencode ein. <br> Der Code setzt sich zusammen aus: <br> <br> - dem dritten Buchstaben des Vornamens deiner Mutter, <br> - dem dritten Buchstaben des Vornamens deines Vaters, <br> - dem dritten Buchstaben deines Geburtsortes, <br> - dem dritten Buchstaben der Straße, in der du wohnst, <br> - dem Tag deines Geburtstags. <br> <br> (z.B. <b>'GNRN02'</b> für 'Inge', 'Hans', 'Berlin', 'Sonnenallee', '02.05.1990') <br> ", rows: 1, columns: 8}],
 		button_label: 'Ok!',
 		data: {trial_code: "subject_id"},
 		on_finish: function(data){
@@ -383,9 +374,9 @@
 					
 					var learning_instruction_trial = {
 						type: 'html-button-response',
-						stimulus: 	'<p> Aufgabe: Lebendig - Nicht lebendig  </p>' + 
+						stimulus: 	'<p> <b>Aufgabe: Lebendig - Nicht lebendig</b> </p>' + 
 									'<p> Dir werden nacheinander einige Wörter gezeigt. Entscheide für jedes Wort, ob das Wort ein Lebewesen oder ein nicht lebendes Objekt darstellt! </p>' + 
-									'<p> <br> <br> Drücke die <b>linke Pfeiltaste</b> für lebendig </p> <p> Drücke die <b>rechte Pfeiltaste</b> für nicht lebendig </p>' +
+									'<p> <br> <br> Drücke die <b>linke Pfeiltaste</b> für lebendig. </p> <p> Drücke die <b>rechte Pfeiltaste</b> für nicht lebendig. </p>' +
 									'<p> Antworte so schnell und so korrekt wie möglich! </p>',
 						choices: ['Los!']
 					};
@@ -402,7 +393,7 @@
 					
 					var math_instruction_trial = {
 						type: 'html-button-response',
-						stimulus: 	'<p> Aufgabe: Rechnen  </p>' + 
+						stimulus: 	'<p> <b>Aufgabe: Rechnen</b> </p>' + 
 									'<p> Dir werden nacheinander einige Rechenaufgaben gezeigt, deren Lösung du über die Tastatur eingeben kannst. </p>' + 
 									'<p> Antworte so schnell und so korrekt wie möglich! </p>',
 						choices: ['Los!']
@@ -433,9 +424,9 @@
 					
 					var learning_instruction_trial = {
 						type: 'html-button-response',
-						stimulus: 	'<p> Aufgabe: E - kein E  </p>' + 
+						stimulus: 	'<p> <b>Aufgabe: E - kein E</b>  </p>' + 
 									'<p> Dir werden nacheinander einige Wörter gezeigt. Entscheide für jedes Wort, ob das Wort ein "E" enthält oder nicht! </p>' + 
-									'<p> <br> <br> Drücke die <b>linke Pfeiltaste</b> wenn das Wort ein "E" enthält </p> <p> Drücke die <b>rechte Pfeiltaste</b> wenn das Wort kein "E" enthält. </p>' +
+									'<p> <br> <br> Drücke die <b>linke Pfeiltaste</b>, wenn das Wort ein "E" enthält. </p> <p> Drücke die <b>rechte Pfeiltaste</b>, wenn das Wort kein "E" enthält. </p>' +
 									'<p> Antworte so schnell und so korrekt wie möglich! </p>',
 						choices: ['Los!']
 					};
@@ -452,7 +443,7 @@
 					
 					var math_instruction_trial = {
 						type: 'html-button-response',
-						stimulus: 	'<p> Aufgabe: Rechnen  </p>' + 
+						stimulus: 	'<p> <b>Aufgabe: Rechnen</b>  </p>' + 
 									'<p> Dir werden nacheinander einige Rechenaufgaben gezeigt, deren Lösung du über die Tastatur eingeben kannst. </p>' + 
 									'<p> Antworte so schnell und so korrekt wie möglich! </p>',
 						choices: ['Los!']
@@ -483,7 +474,7 @@
 					
 					var learning_instruction_trial = {
 						type: 'html-button-response',
-						stimulus: 	'<p> Aufgabe: Wörter lernen </p>' + 
+						stimulus: 	'<p> <b>Aufgabe: Wörter lernen</b> </p>' + 
 									'<p> Dir werden nacheinander einige Wörter gezeigt. Versuche dir jedes Wort so gut wie möglich zu merken! </p>',
 						choices: ['Los!']
 					};
@@ -500,7 +491,7 @@
 					
 					var math_instruction_trial = {
 						type: 'html-button-response',
-						stimulus: 	'<p> Aufgabe: Rechnen  </p>' + 
+						stimulus: 	'<p> <b>Aufgabe: Rechnen</b>  </p>' + 
 									'<p> Dir werden nacheinander einige Rechenaufgaben gezeigt, deren Lösung du über die Tastatur eingeben kannst. </p>' + 
 									'<p> Antworte so schnell und so korrekt wie möglich! </p>',
 						choices: ['Los!']
@@ -531,7 +522,7 @@
 			
 			var recall_instruction_trial = {				//  recall instruction
 				type: 'html-button-response',
-				stimulus: '<p> In der dieser Aufgabe sollst du dich an alle Wörter zu erinnern, die du gerade gesehen hast. Versuche dich auch an die Wörter zu erinnern, die du nicht ausdrücklich lernen solltest! </p>' + '<p> </p>',
+				stimulus: '<p> In dieser Aufgabe sollst du dich an ALLE Wörter erinnern, die du gerade gesehen hast. Versuche dich auch an die Wörter zu erinnern, die du nicht ausdrücklich lernen solltest! </p>' + '<p> </p>',
 				choices: ['Los!'],
 			};
 			timeline.push(recall_instruction_trial);
@@ -539,7 +530,7 @@
 			// recall task
 			var recall_trial = {		
 				type: 'survey-text',
-				questions: [{prompt: "Bitte notiere alle Wörter, an die du dich noch erinnern kannst. Bitte trenne jedes neue Wort durch ein Komma ('Wort1', 'Wort2', ...) und achte darauf, dass es richtig geschrieben ist.", rows: 20, columns: 80}],
+				questions: [{prompt: "Bitte notiere ALLE Wörter, an die du dich noch erinnern kannst! Trenne jedes neue Wort durch ein Komma (Wort1, Wort2, ...).", rows: 20, columns: 80}],
 				data: {trial_code: "LTM_recall"}, 
 			};
 			timeline.push(recall_trial); 
@@ -548,7 +539,7 @@
 	// end trial
 	var end_trial = {
 		type: 'html-button-response',
-		stimulus: '<p> Gut gemacht, vielen Dank!  <br> <br> Ende des Experiments! Bitte bei dem/der Versuchsleiter/in melden. </p>',
+		stimulus: '<p> Gut gemacht, vielen Dank!  <br> <br> Ende des Experiments! Bitte bei der Versuchsleiterin melden. </p>',
 		choices: ['Ok!']
 	};
 	timeline.push(end_trial);
