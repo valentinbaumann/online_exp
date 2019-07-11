@@ -7,7 +7,7 @@
   <meta charset="UTF-8"/>
   
   <!-- name of experiment -->
-  <title>offline_test_Day1</title>  
+  <title>offline_test_Day1_STM</title>  
   
   <!-- loads jspsych plugins (offline) -->
   <script type="text/javascript" src="jspsych-6.0.5/jspsych.js"></script>
@@ -42,7 +42,7 @@
 	encoding_condition_array = jsPsych.randomization.shuffle(encoding_condition_array)    // shuffle array
 	
 	// create rehearsal condition variable
-	var rehearsal_condition = "noSTM",
+	var rehearsal_condition = "STM"     // get first element
 	jsPsych.data.addProperties({rehearsal_condition: rehearsal_condition});	// adds condition variable to all trials in the data
 	console.log("rehearsal_condition: " + rehearsal_condition);
 
@@ -221,7 +221,7 @@
 	// create incidental_semantic learning trial	
 	var learning_trial_incidental_semantic = {
         type: 'html-keyboard-response',
-		prompt: '<pre> lebendig										nicht lebendig </pre>',	// "<pre>" tag allows for predefined html text
+		prompt: '<pre>lebendig					nicht lebendig</pre>',	// "<pre>" tag allows for predefined html text
 		stimulus: jsPsych.timelineVariable('word'),
         choices: [37, 39], 								// left and right arrow key
 		trial_duration: 2000,
@@ -232,7 +232,7 @@
 	// create incidental_perceptual learning trial	
 	var learning_trial_incidental_perceptual = {
         type: 'html-keyboard-response',
-		prompt: '<pre>"E"										"kein E" </pre>',
+		prompt: '<pre>E					kein E</pre>',
 		stimulus: jsPsych.timelineVariable('word'),
         choices: [37, 39],								// left and right arrow key
 		trial_duration: 2000,
@@ -269,7 +269,7 @@
 	// welcome instruction
 	var welcome_instruction_trial = {
 		type: 'html-button-response',
-		stimulus: '<p> Willkommen! <br> <br> Studie Tag 1 </p>',
+		stimulus: '<p> Willkommen! <br> <br> Tag 1 </p>',
 		choices: ['Los!'],
 		//data: {day: "day1"},
 	};
@@ -289,59 +289,7 @@
 		},		
 	};
 	timeline.push(subject_id_trial); 
- 
- 
-	var interaction_data = jsPsych.data.getInteractionData();
-	// log data to console in json format
-	console.log(interaction_data.json());
- 
-	/*
-	// age
-	var survey_age_trial = {
-		type: 'survey-text',
-		button_label: 'Ok!',
-		questions: [{prompt: "Alter:"},],
-		data: {trial_code: "age"}, 
-		on_finish: function(data){
-			age = JSON.parse(data.responses).Q0;
-			jsPsych.data.addProperties({
-				age: age,
-			});
-		},	
-	};		
-	timeline.push(survey_age_trial); 
-	
-	// gender
-	var survey_gender_trial = {
-		type: 'survey-text',
-		button_label: 'Ok!',
-		questions: [{prompt: "Was ist dein Geschlecht?"},],
-		data: {trial_code: "gender"}, 
-		on_finish: function(data){
-			gender = JSON.parse(data.responses).Q0;
-			jsPsych.data.addProperties({
-				gender: gender,
-			});
-		},	
-	};
-	timeline.push(survey_gender_trial); 
-	
-	// education
-	var survey_education_trial = {
-		type: 'survey-text',
-		button_label: 'Ok!',
-		questions: [{prompt: "Was ist dein höchster Bildungsabschluss?"},],
-		data: {trial_code: "education"}, 
-		on_finish: function(data){
-			education = JSON.parse(data.responses).Q0;
-			jsPsych.data.addProperties({
-				education: education,
-			});
-		},	
-	};
-	timeline.push(survey_education_trial); 
-	*/
-	
+
 	
 	// initial feedback trial
 	var initial_feedback_trial = {
@@ -528,7 +476,7 @@
 			var recall_trial = {		
 				type: 'survey-text',
 				questions: [{prompt: "Bitte notiere ALLE Wörter, an die du dich noch erinnern kannst! Trenne jedes neue Wort durch ein Komma (Wort1, Wort2, ...).", rows: 20, columns: 80}],
-				data: {trial_code: "LTM_recall"}, 
+				data: {trial_code: "STM_recall"}, 
 			};
 			timeline.push(recall_trial); 
 	}
@@ -536,12 +484,20 @@
 	// end trial
 	var end_trial = {
 		type: 'html-button-response',
-		stimulus: '<p> Gut gemacht, vielen Dank!  <br> <br> Ende des Experiments! Bitte bei der Versuchsleiterin melden. </p>',
+		stimulus: '<p> Gut gemacht, vielen Dank!  <br> <br> Ende des Experiments!  <br> Bitte warte an Deinem Platz, bis die anderen Probanden auch fertig sind und die Versuchsleiterin das Experiment beendet. </p>',
 		choices: ['Ok!']
 	};
 	timeline.push(end_trial);
    
-   
+    // prevent participants from seeing the data
+   	var blank_trial = {
+	    type: 'html-keyboard-response',
+		stimulus: "",
+        choices: ["q"],
+        post_trial_gap: 0,
+		data: {trial_code: "blank_trial"},
+	};
+	timeline.push(blank_trial); 
    
 	/////////////////////////////////////////////////////
 	// starts playing the timeline
