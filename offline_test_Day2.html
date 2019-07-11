@@ -19,9 +19,7 @@
 	<script src="jspsych-6.0.5/plugins/jspsych-survey-text.js"></script> 
 	<script type="text/javascript" src="jspsych-6.0.5/plugins/jspsych-survey-likert.js"></script>
 	<script type="text/javascript" src="jspsych-6.0.5/plugins/jspsych-survey-multi-choice.js"></script>
-	<style>
-	.stimulus { font-size: 60px; }
-	</style>  
+
    
 
 </head>
@@ -63,21 +61,21 @@
 		{word: 'AAL', data: {trial_code: 'recognition',  property: "old", encoding_condition: "incidental_semantic", target: "living"}},	
 		{word: 'GANS', data: {trial_code: 'recognition',  property: "old", encoding_condition: "incidental_semantic", target: "living"}},			
 		{word: 'SOHN', data: {trial_code: 'recognition',  property: "old", encoding_condition: "incidental_semantic", target: "living"}},	
-		{word: 'BESTECK', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},
-		{word: 'PADDEL', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},
-		{word: 'SCHULE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},
-		{word: 'KIESEL', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},		
-		{word: 'ZOPF', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},
-		{word: 'BURG', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},
-		{word: 'GABEL', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},		
-		{word: 'TEPPICH', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},
-		{word: 'TASCHE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},
-		{word: 'FEDER', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},		
-		{word: 'SALBE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},
-		{word: 'PEDAL', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},
-		{word: 'RAHMEN', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},		
-		{word: 'FLAGGE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},
-		{word: 'KOHLE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},		
+		{word: 'BESTECK', data: {trial_code: 'recognition',property: "old", encoding_condition: "incidental_semantic", target: "non_living"}},
+		{word: 'PADDEL', data: {trial_code: 'recognition', property: "old", encoding_condition: "incidental_semantic", target: "non_living"}},
+		{word: 'SCHULE', data: {trial_code: 'recognition', property: "old", encoding_condition: "incidental_semantic", target: "non_living"}},
+		{word: 'KIESEL', data: {trial_code: 'recognition', property: "old", encoding_condition: "incidental_semantic", target: "non_living"}},		
+		{word: 'ZOPF', data: {trial_code: 'recognition', property: "old", encoding_condition: "incidental_semantic", target: "non_living"}},
+		{word: 'BURG', data: {trial_code: 'recognition', property: "old", encoding_condition: "incidental_semantic", target: "non_living"}},
+		{word: 'GABEL', data: {trial_code: 'recognition', property: "old", encoding_condition: "incidental_semantic", target: "non_living"}},		
+		{word: 'TEPPICH', data: {trial_code: 'recognition', property: "old", encoding_condition: "incidental_semantic", target: "non_living"}},
+		{word: 'TASCHE', data: {trial_code: 'recognition', property: "old", encoding_condition: "incidental_semantic", target: "non_living"}},
+		{word: 'FEDER', data: {trial_code: 'recognition', property: "old", encoding_condition: "incidental_semantic", target: "non_living"}},		
+		{word: 'SALBE', data: {trial_code: 'recognition', property: "old", encoding_condition: "incidental_semantic", target: "non_living"}},
+		{word: 'PEDAL', data: {trial_code: 'recognition', property: "old", encoding_condition: "incidental_semantic", target: "non_living"}},
+		{word: 'RAHMEN', data: {trial_code: 'recognition', property: "old", encoding_condition: "incidental_semantic", target: "non_living"}},		
+		{word: 'FLAGGE', data: {trial_code: 'recognition', property: "old", encoding_condition: "incidental_semantic", target: "non_living"}},
+		{word: 'KOHLE', data: {trial_code: 'recognition', property: "old", encoding_condition: "incidental_semantic", target: "non_living"}},		
 		
 		{word: 'AMPEL', data: {trial_code: 'recognition',  property: "old", encoding_condition: "intentional"}},
 		{word: 'AUGE', data: {trial_code: 'recognition',  property: "old", encoding_condition: "intentional"}},
@@ -252,7 +250,7 @@
 	// create recognition trial	
 	var recognition_trial = {
         type: 'html-keyboard-response',
-		prompt: '<pre>alt										neu </pre>',
+		prompt: '<pre>alt					neu </pre>',
 		stimulus: jsPsych.timelineVariable('word'),
         choices: [37,39],
         post_trial_gap: 0,
@@ -288,12 +286,13 @@
 	// welcome instruction
 	var welcome_instruction_trial = {
 		type: 'html-button-response',
-		stimulus: '<p> Willkommen zurück! <br> <br> Studie Tag 2 </p>',
+		stimulus: '<p> Willkommen zurück! <br> <br> Tag 2 </p>',
 		choices: ['Los!'],
 		data: {day: "day2"}, 
 	};
 	timeline.push(welcome_instruction_trial);
 
+/*
  	// subject ID
 	var subject_id_trial = {
 		type: 'survey-text',
@@ -459,14 +458,40 @@
 		data: {trial_code: "novelty_halo_detail"}, 
 	};
 	timeline.push(survey_novelty_halo_detail_trial); 
+	
+	var survey_arousal_halo_yes_no_trial = {
+		type: 'survey-likert',
+		questions: [{prompt: "Ist in der Stunde vor oder nach dem Experiment etwas Aufregendes passiert?", labels: likert_yes_no}],
+    	button_label: 'Ok!',
+		data: {trial_code: "arousal_halo_yes_no"}, 
+	};
+	timeline.push(survey_arousal_halo_yes_no_trial); 
 
+	var survey_arousal_halo_detail_trial = {
+		type: 'survey-likert',
+		questions: [{prompt: "Wenn ja, wie aufregend war dieses Erlebnis für dich? <br> Wenn nichts Aufregendes passiert ist, weiter mit 'Ok!' ", labels: likert_novelty}],
+    	button_label: 'Ok!',
+		data: {trial_code: "arousal_halo_detail"}, 
+	};
+	timeline.push(survey_arousal_halo_detail_trial); 
+	
+	*/
 	// end trial
 	var end_trial = {
 		type: 'html-button-response',
-		stimulus: '<p>Gut gemacht, vielen Dank! <br><br> Ende des Experiments! Bitte bei der Versuchsleiter melden.</p>',
-		choices: ['Ok']
+		stimulus: '<p> Gut gemacht, vielen Dank!  <br> <br> Ende des Experiments!  <br> Bitte warte an Deinem Platz, bis die anderen Probanden auch fertig sind und die Versuchsleiterin das Experiment beendet. </p>',
+		choices: ['Ok!']
 	};
 	timeline.push(end_trial);
+   
+   	var blank_trial = {
+	    type: 'html-keyboard-response',
+		stimulus: "",
+        choices: ["q"],
+        post_trial_gap: 0,
+	};
+	timeline.push(blank_trial);
+   
    
 
 
