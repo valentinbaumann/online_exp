@@ -38,8 +38,11 @@
 	console.log(console_test);
   
 	// create encoding condition variable
+	//var encoding_condition_array = ["incidental_semantic", "intentional"]	
 	var encoding_condition_array = ["incidental_semantic", "incidental_perceptual", "intentional"]
 	encoding_condition_array = jsPsych.randomization.shuffle(encoding_condition_array)    // shuffle array
+	
+	
 	
 	// create rehearsal condition variable
 	var rehearsal_condition = "STM"     // get first element
@@ -213,7 +216,7 @@
         type: 'html-keyboard-response',
 		stimulus: jsPsych.timelineVariable('word'),
         choices: jsPsych.NO_KEYS,
-		trial_duration: 2000,
+		trial_duration: 3000,
         post_trial_gap: 0,
 		data: jsPsych.timelineVariable('data'),
 	};			
@@ -224,7 +227,7 @@
 		prompt: '<pre>lebendig					nicht lebendig</pre>',	// "<pre>" tag allows for predefined html text
 		stimulus: jsPsych.timelineVariable('word'),
         choices: [37, 39], 								// left and right arrow key
-		trial_duration: 2000,
+		trial_duration: 3000,
         post_trial_gap: 0,
 		data: jsPsych.timelineVariable('data'),
 	};			
@@ -235,7 +238,7 @@
 		prompt: '<pre>E					kein E</pre>',
 		stimulus: jsPsych.timelineVariable('word'),
         choices: [37, 39],								// left and right arrow key
-		trial_duration: 2000,
+		trial_duration: 3000,
         post_trial_gap: 0,
 		data: jsPsych.timelineVariable('data'),
 	};		
@@ -320,7 +323,7 @@
 					var learning_instruction_trial = {
 						type: 'html-button-response',
 						stimulus: 	'<p> <b>Aufgabe: Lebendig - Nicht lebendig</b> </p>' + 
-									'<p> Dir werden nacheinander einige Wörter gezeigt. Entscheide für jedes Wort, ob das Wort ein Lebewesen oder ein nicht lebendes Objekt darstellt! </p>' + 
+									'<p> Dir werden nacheinander einige Wörter gezeigt. <br> Entscheide für jedes Wort, ob das Wort ein Lebewesen oder ein nicht lebendes Objekt darstellt! </p>' + 
 									'<p> <br> <br> Drücke die <b>linke Pfeiltaste</b> für lebendig. </p> <p> Drücke die <b>rechte Pfeiltaste</b> für nicht lebendig. </p>' +
 									'<p> Antworte so schnell und so korrekt wie möglich! </p>',
 						choices: ['Los!']
@@ -370,7 +373,7 @@
 					var learning_instruction_trial = {
 						type: 'html-button-response',
 						stimulus: 	'<p> <b>Aufgabe: E - kein E</b>  </p>' + 
-									'<p> Dir werden nacheinander einige Wörter gezeigt. Entscheide für jedes Wort, ob das Wort ein "E" enthält oder nicht! </p>' + 
+									'<p> Dir werden nacheinander einige Wörter gezeigt. <br> Entscheide für jedes Wort, ob das Wort ein "E" enthält oder nicht! </p>' + 
 									'<p> <br> <br> Drücke die <b>linke Pfeiltaste</b>, wenn das Wort ein "E" enthält. </p> <p> Drücke die <b>rechte Pfeiltaste</b>, wenn das Wort kein "E" enthält. </p>' +
 									'<p> Antworte so schnell und so korrekt wie möglich! </p>',
 						choices: ['Los!']
@@ -467,7 +470,7 @@
 			
 			var recall_instruction_trial = {				//  recall instruction
 				type: 'html-button-response',
-				stimulus: '<p> In dieser Aufgabe sollst du dich an ALLE Wörter erinnern, die du gerade gesehen hast. Versuche dich auch an die Wörter zu erinnern, die du nicht ausdrücklich lernen solltest! </p>' + '<p> </p>',
+				stimulus: '<p> In dieser Aufgabe sollst du dich an ALLE Wörter erinnern, die du gerade gesehen hast. <br> Versuche dich auch an die Wörter zu erinnern, die du nicht ausdrücklich lernen solltest! </p>' + '<p> </p>',
 				choices: ['Los!'],
 			};
 			timeline.push(recall_instruction_trial);
@@ -475,7 +478,7 @@
 			// recall task
 			var recall_trial = {		
 				type: 'survey-text',
-				questions: [{prompt: "Bitte notiere ALLE Wörter, an die du dich noch erinnern kannst! Trenne jedes neue Wort durch ein Komma (Wort1, Wort2, ...).", rows: 20, columns: 80}],
+				questions: [{prompt: "Bitte notiere ALLE Wörter, an die du dich noch erinnern kannst! <br> Trenne jedes neue Wort durch ein Komma (Wort1, Wort2, ...).", rows: 20, columns: 80}],
 				data: {trial_code: "STM_recall"}, 
 			};
 			timeline.push(recall_trial); 

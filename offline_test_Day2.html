@@ -292,7 +292,6 @@
 	};
 	timeline.push(welcome_instruction_trial);
 
-/*
  	// subject ID
 	var subject_id_trial = {
 		type: 'survey-text',
@@ -328,7 +327,7 @@
 	// recall task
 	var recall_trial = {		
 		type: 'survey-text',
-		questions: [{prompt: "Bitte notiere alle Wörter, an die du dich noch erinnern kannst! Trenne jedes neue Wort durch ein Komma (Wort1, Wort2, ...).", rows: 20, columns: 80}],
+		questions: [{prompt: "Bitte notiere alle Wörter, an die du dich noch erinnern kannst! <br> Trenne jedes neue Wort durch ein Komma (Wort1, Wort2, ...).", rows: 20, columns: 80}],
 		data: {trial_code: "LTM_recall"}, 
 	};
 	timeline.push(recall_trial); 
@@ -475,7 +474,6 @@
 	};
 	timeline.push(survey_arousal_halo_detail_trial); 
 	
-	*/
 	// end trial
 	var end_trial = {
 		type: 'html-button-response',
