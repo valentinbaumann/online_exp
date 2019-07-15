@@ -259,6 +259,25 @@
 		data: jsPsych.timelineVariable('data'),
 	};
 
+	// feedback for recognition task
+	var recognition_feedback = {
+		type: 'html-keyboard-response',
+		trial_duration: 1000,
+		post_trial_gap: 0,
+		data: {trial_code: 'feedback'},
+		stimulus: function(){
+			var last_trial_choice = jsPsych.data.get().last(1).values()[0].key_press;
+			if(last_trial_choice == 37){
+				return "<p> Deine Antwort: <b>alt<b> </p>";
+			} else if (last_trial_choice == 39){
+				return "<p> Deine Antwort: <b>neu<b> </p>";
+			} else {
+				return "<p> <b>Antwort verpasst!<b> </p>";
+			}
+			
+		}
+	}
+
 	// feedback trial
 	var feedback_trial = {
 		type: 'html-button-response',
@@ -347,7 +366,7 @@
 	var recognition_timeline = {
 		timeline_variables: words_recognition,
 		randomize_order: true,
-		timeline: [fixation_trial, recognition_trial]	
+		timeline: [fixation_trial, recognition_trial, recognition_feedback]	
 	}	
 	timeline.push(recognition_timeline);
 
@@ -365,7 +384,7 @@
 	
 	var survey_strategies_yes_no_trial = {
 		type: 'survey-likert',
-		questions: [{prompt: " Hast du gestern beim Lernen der Wörter eine Strategie benutzt, um dir die Wörter besser merken zu können? <br> Zum Beispiel eine Geschichte ausdenken, Begriffe zusammen fassen, innerlich vorsagen... ", labels: likert_yes_no}],
+		questions: [{prompt: " Du solltest gestern einige Wörter lernen. <b> Hast du gestern beim Lernen dieser Wörter eine Strategie benutzt, um dir die Wörter besser merken zu können? <br> Zum Beispiel eine Geschichte ausdenken, Begriffe zusammen fassen, innerlich vorsagen... ", labels: likert_yes_no}],
     	button_label: 'Ok!',
 		data: {trial_code: "strategies_yes_no"}, 
 	};
@@ -386,7 +405,7 @@
     	button_label: 'Ok!',
 		data: {trial_code: "expectation_STM"}, 
 	};
-	timeline.push(survey_expectation_STM_trial); 	
+	timeline.push(survey_expectation_STM_trial); 		
 
 	var survey_rehearsal_trial = {
 		type: 'survey-likert',

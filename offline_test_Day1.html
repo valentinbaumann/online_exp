@@ -43,7 +43,7 @@
 	encoding_condition_array = jsPsych.randomization.shuffle(encoding_condition_array)    // shuffle array
 	
 	// create rehearsal condition variable
-	var rehearsal_condition = "STM"     // get first element
+	var rehearsal_condition = "STM"
 	jsPsych.data.addProperties({rehearsal_condition: rehearsal_condition});	// adds condition variable to all trials in the data
 	console.log("rehearsal_condition: " + rehearsal_condition);
 
@@ -200,14 +200,25 @@
 	// prepare trials within secondary timelines
 	
 	// create fixation trial
-	var fixation_trial = {
+	var fixation_long_trial = {
 		type: 'html-keyboard-response',
-    stimulus: '<div style="font-size:40px;"> </div>',
-    choices: jsPsych.NO_KEYS,
-		trial_duration: 1500,
+		stimulus: '<div style="font-size:40px;"> </div>',
+		choices: jsPsych.NO_KEYS,
+		trial_duration: 2000,
 		post_trial_gap: 0,
 		data: {trial_code: 'fixation'}
     }
+	
+	// create fixation incidental trial
+	var fixation_short_trial = {
+		type: 'html-keyboard-response',
+		stimulus: '<div style="font-size:40px;"> </div>',
+		choices: jsPsych.NO_KEYS,
+		trial_duration: 1000,
+		post_trial_gap: 0,
+		data: {trial_code: 'fixation'}
+    }
+	
 
 	// create intentional learning trial	
 	var learning_trial_intentional = {
@@ -243,7 +254,7 @@
 		data: jsPsych.timelineVariable('data'),
 	};		
 
-	// create buffer trial
+	// create buffer trial with math tasks
 	var math_trial = {
 		type: 'survey-text',
 		questions: [{prompt: jsPsych.timelineVariable('task'), rows: 1, columns: 5}],
@@ -251,7 +262,43 @@
 		data: jsPsych.timelineVariable('data'),
 	};		
 
-	// feedback trial
+	// feedback for incidental semantic learning
+	var incidental_semantic_feedback = {
+		type: 'html-keyboard-response',
+		trial_duration: 1000,
+		post_trial_gap: 0,
+		data: {trial_code: 'feedback'},
+		stimulus: function(){
+			var last_trial_choice = jsPsych.data.get().last(1).values()[0].key_press;
+			if(last_trial_choice == 37){
+				return "<p> Deine Antwort: <b>lebendig<b> </p>";
+			} else if (last_trial_choice == 39){
+				return "<p> Deine Antwort: <b>nicht lebendig<b> </p>";
+			} else {
+				return "<p> <b>Antwort verpasst!<b> </p>";
+			}
+		}
+	}
+	
+	// feedback for incidental perceptual learning
+	var incidental_perceptual_feedback = {
+		type: 'html-keyboard-response',
+		trial_duration: 1000,
+		post_trial_gap: 0,
+		data: {trial_code: 'feedback'},
+		stimulus: function(){
+			var last_trial_choice = jsPsych.data.get().last(1).values()[0].key_press;
+			if(last_trial_choice == 37){
+				return "<p> Deine Antwort: <b>E<b> </p>";
+			} else if (last_trial_choice == 39){
+				return "<p> Deine Antwort: <b>kein E<b> </p>";
+			} else {
+				return "<p> <b>Antwort verpasst!<b> </p>";
+			}
+		}
+	}
+	
+	// general feedback trial
 	var feedback_trial = {
 		type: 'html-button-response',
 		stimulus: '<p> Gut gemacht! Bereit für die nächste Aufgabe? </p>',
@@ -333,7 +380,7 @@
 					var learning_timeline = {												// learning task with own internal timeline (learning trial + fixation, defined above)
 						timeline_variables: words_learning_incidental_semantic,
 						randomize_order: true,
-						timeline: [fixation_trial, learning_trial_incidental_semantic]	
+						timeline: [fixation_short_trial, learning_trial_incidental_semantic, incidental_semantic_feedback]	
 					}	
 					timeline.push(learning_timeline)
 					
@@ -351,7 +398,7 @@
 					var math_timeline = {												// learning task with own internal timeline (learning trial + fixation, defined above)
 						timeline_variables: math_tasks_slice1,
 						randomize_order: true,
-						timeline: [fixation_trial, math_trial]	
+						timeline: [fixation_short_trial, math_trial]	
 					}	
 					timeline.push(math_timeline)
 					
@@ -383,7 +430,7 @@
 					var learning_timeline = {												// learning task with own internal timeline (learning trial + fixation, defined above)
 						timeline_variables: words_learning_incidental_perceptual,
 						randomize_order: true,
-						timeline: [fixation_trial, learning_trial_incidental_perceptual]	
+						timeline: [fixation_short_trial, learning_trial_incidental_perceptual, incidental_perceptual_feedback]	
 					}	
 					timeline.push(learning_timeline)
 					
@@ -401,7 +448,7 @@
 					var math_timeline = {												// learning task with own internal timeline (learning trial + fixation, defined above)
 						timeline_variables: math_tasks_slice2,
 						randomize_order: true,
-						timeline: [fixation_trial, math_trial]	
+						timeline: [fixation_short_trial, math_trial]	
 					}	
 					timeline.push(math_timeline)			
 					
@@ -431,7 +478,7 @@
 					var learning_timeline = {												// learning task with own internal timeline (learning trial + fixation, defined above)
 						timeline_variables: words_learning_intentional,
 						randomize_order: true,
-						timeline: [fixation_trial, learning_trial_intentional]	
+						timeline: [fixation_long_trial, learning_trial_intentional]	
 					}	
 					timeline.push(learning_timeline)
 					
@@ -449,7 +496,7 @@
 					var math_timeline = {												// learning task with own internal timeline (learning trial + fixation, defined above)
 						timeline_variables: math_tasks_slice3,
 						randomize_order: true,
-						timeline: [fixation_trial, math_trial]	
+						timeline: [fixation_short_trial, math_trial]	
 					}	
 					timeline.push(math_timeline)	
 					
@@ -460,7 +507,6 @@
 			}
 
 	} // end learning block loop
-
 
 
 	// add a STM recall, if condition == STM
@@ -484,6 +530,14 @@
 			timeline.push(recall_trial); 
 	}
 
+	// pilot survey
+	var pilot_trial = {		
+		type: 'survey-text',
+		questions: [{prompt: "Hast du noch Anmerkungen oder Verbesserungsvorschläge für das heutige Experiment?", rows: 20, columns: 80}],
+		data: {trial_code: "STM_recall"}, 
+		};
+		timeline.push(pilot_trial); 	
+	
 	// end trial
 	var end_trial = {
 		type: 'html-button-response',
