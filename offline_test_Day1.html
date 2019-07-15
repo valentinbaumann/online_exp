@@ -42,8 +42,6 @@
 	var encoding_condition_array = ["incidental_semantic", "incidental_perceptual", "intentional"]
 	encoding_condition_array = jsPsych.randomization.shuffle(encoding_condition_array)    // shuffle array
 	
-	
-	
 	// create rehearsal condition variable
 	var rehearsal_condition = "STM"     // get first element
 	jsPsych.data.addProperties({rehearsal_condition: rehearsal_condition});	// adds condition variable to all trials in the data
@@ -64,11 +62,11 @@
 		{word: 'BRAUT', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "living"}},
 		{word: 'ZIEGE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "living"}},		
 		{word: 'KROKODIL', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "living"}},
-		{word: 'TOURIST', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "living"}},
-		{word: 'ONKEL', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "living"}},	
-		{word: 'AAL', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "living"}},	
-		{word: 'GANS', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "living"}},			
-		{word: 'SOHN', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "living"}},	
+		//{word: 'TOURIST', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "living"}},
+		//{word: 'ONKEL', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "living"}},	
+		//{word: 'AAL', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "living"}},	
+		//{word: 'GANS', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "living"}},			
+		//{word: 'SOHN', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "living"}},	
 		
 		{word: 'BESTECK', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},
 		{word: 'PADDEL', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},
@@ -80,11 +78,11 @@
 		{word: 'TEPPICH', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},
 		{word: 'TASCHE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},
 		{word: 'FEDER', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},		
-		{word: 'SALBE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},
-		{word: 'PEDAL', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},
-		{word: 'RAHMEN', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},		
-		{word: 'FLAGGE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},
-		{word: 'KOHLE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},
+		//{word: 'SALBE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},
+		//{word: 'PEDAL', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},
+		//{word: 'RAHMEN', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},		
+		//{word: 'FLAGGE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},
+		//{word: 'KOHLE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_semantic", target: "non_living"}},
 	];
 	words_learning_incidental_semantic = jsPsych.randomization.shuffle(words_learning_incidental_semantic) ;			// shuffle learning list
 	
@@ -99,11 +97,11 @@
 		{word: 'GOLD', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "no_e"}},
 		{word: 'PILZ', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "no_e"}},		
 		{word: 'PILOT', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "no_e"}},
-		{word: 'HAUS', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "no_e"}},
-		{word: 'DACHS', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "no_e"}},
-		{word: 'SAUNA', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "no_e"}},
-		{word: 'PANDA', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "no_e"}},
-		{word: 'TURM', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "no_e"}},
+		//{word: 'HAUS', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "no_e"}},
+		//{word: 'DACHS', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "no_e"}},
+		//{word: 'SAUNA', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "no_e"}},
+		//{word: 'PANDA', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "no_e"}},
+		//{word: 'TURM', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "no_e"}},
 		
 		{word: 'RIESE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "e"}},
 		{word: 'GURKE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "e"}},
@@ -115,45 +113,45 @@
 		{word: 'LUPE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "e"}},
 		{word: 'PFANNE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "e"}},
 		{word: 'LEDER', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "e"}},
-		{word: 'DAME', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "e"}},
-		{word: 'FEILE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "e"}},
-		{word: 'PUPPE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "e"}},
-		{word: 'RUDER', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "e"}},	
-		{word: 'ORGEL', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "e"}},
+		//{word: 'DAME', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "e"}},
+		//{word: 'FEILE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "e"}},
+		//{word: 'PUPPE', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "e"}},
+		//{word: 'RUDER', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "e"}},	
+		//{word: 'ORGEL', data: {trial_code: 'learning', block: 99, encoding_condition: "incidental_perceptual", target: "e"}},
 	];
 	words_learning_incidental_perceptual = jsPsych.randomization.shuffle(words_learning_incidental_perceptual) ;		// shuffle learning list
 	
 	var words_learning_intentional = [
-		{word: 'AMPEL', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
+		//{word: 'AMPEL', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 		{word: 'AUGE', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 		{word: 'BANK', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 		{word: 'BAUM', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
-		{word: 'BIENE', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
+		//{word: 'BIENE', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 		{word: 'BRIEF', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 		{word: 'BRILLE', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 		{word: 'BROT', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 		{word: 'EIMER', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 		{word: 'FENSTER', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
-		{word: 'FLASCHE', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
+		//{word: 'FLASCHE', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 		{word: 'GEMÜSE', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 		{word: 'HAFEN', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
-		{word: 'HAND', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
-		{word: 'HEMD', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
+		//{word: 'HAND', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
+		//{word: 'HEMD', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 		{word: 'IGEL', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 		{word: 'KATZE', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
-		{word: 'KLASSE', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
+		//{word: 'KLASSE', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 		{word: 'KREUZ', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 		{word: 'LEHRER', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 		{word: 'MÄDCHEN', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
-		{word: 'REGEN', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
-		{word: 'ROCK', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
-		{word: 'SCHERE', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
+		//{word: 'REGEN', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
+		//{word: 'ROCK', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
+		//{word: 'SCHERE', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 		{word: 'SCHLOSS', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 		{word: 'SCHUH', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 		{word: 'SESSEL', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 		{word: 'STRASSE', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 		{word: 'TAG', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
-		{word: 'TANTE', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
+		//{word: 'TANTE', data: {trial_code: 'learning', block: 99, encoding_condition: "intentional"}},
 	];
 	words_learning_intentional = jsPsych.randomization.shuffle(words_learning_intentional) ;							// shuffle learning list
 
@@ -204,7 +202,7 @@
 	// create fixation trial
 	var fixation_trial = {
 		type: 'html-keyboard-response',
-    stimulus: '<div style="font-size:40px;">+</div>',
+    stimulus: '<div style="font-size:40px;"> </div>',
     choices: jsPsych.NO_KEYS,
 		trial_duration: 1500,
 		post_trial_gap: 0,
@@ -224,10 +222,11 @@
 	// create incidental_semantic learning trial	
 	var learning_trial_incidental_semantic = {
         type: 'html-keyboard-response',
-		prompt: '<pre>lebendig					nicht lebendig</pre>',	// "<pre>" tag allows for predefined html text
+		//prompt: '<pre>lebendig					nicht lebendig</pre>',	// "<pre>" tag allows for predefined html text
 		stimulus: jsPsych.timelineVariable('word'),
         choices: [37, 39], 								// left and right arrow key
 		trial_duration: 3000,
+		response_ends_trial: false, 
         post_trial_gap: 0,
 		data: jsPsych.timelineVariable('data'),
 	};			
@@ -235,10 +234,11 @@
 	// create incidental_perceptual learning trial	
 	var learning_trial_incidental_perceptual = {
         type: 'html-keyboard-response',
-		prompt: '<pre>E					kein E</pre>',
+		//prompt: '<pre>E					kein E</pre>',
 		stimulus: jsPsych.timelineVariable('word'),
         choices: [37, 39],								// left and right arrow key
 		trial_duration: 3000,
+		response_ends_trial: false, 
         post_trial_gap: 0,
 		data: jsPsych.timelineVariable('data'),
 	};		
@@ -292,7 +292,7 @@
 		},		
 	};
 	timeline.push(subject_id_trial); 
-
+	
 	
 	// initial feedback trial
 	var initial_feedback_trial = {
