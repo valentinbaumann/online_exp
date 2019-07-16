@@ -401,7 +401,7 @@
 
 	var survey_expectation_STM_trial = {
 		type: 'survey-likert',
-		questions: [{prompt: " Du solltest gestern einige Wörter lernen. Hast du erwartet gleich danach abgefragt zu werden? ", labels: likert_yes_no}],
+		questions: [{prompt: " Du solltest gestern einige Wörter lernen. Hast du erwartet, danach gleich nach ihnen gefragt zu werden? ", labels: likert_yes_no}],
     	button_label: 'Ok!',
 		data: {trial_code: "expectation_STM"}, 
 	};
@@ -414,7 +414,27 @@
 		data: {trial_code: "rehearsal"}, 
 	};
 	timeline.push(survey_rehearsal_trial); 
-
+	
+	var survey_incidental_learning_check_trial = {
+		type: 'survey-likert',
+		questions: [{prompt: 	"Du hast gestern zwei Aufgaben bearbeitet, in denen du Wörter einer Kategorie zuordnen musstest (lebendig/nicht lebendig, E/kein E)." + 
+								"<br> Hast du neben dem Zuordnen auch versucht, dir die Wörter zu merken?", 
+		labels: likert_yes_no}],
+    	button_label: 'Ok!',
+		data: {trial_code: "incidental_learning_check"}, 
+	};
+	timeline.push(survey_incidental_learning_check_trial); 	
+	
+	var survey_incidental_expectation_check_trial = {
+		type: 'survey-likert',
+		questions: [{prompt: 	"Du hast gestern zwei Aufgaben bearbeitet, in denen du Wörter einer Kategorie zuordnen musstest (lebendig/nicht lebendig, E/kein E)." + 
+								"<br> Hast du erwartet, auch nach den Wörtern in diesen beiden Aufgaben gefragt zu werden?", 
+		labels: likert_yes_no}],
+    	button_label: 'Ok!',
+		data: {trial_code: "incidental_expectation_check"}, 
+	};
+	timeline.push(survey_incidental_expectation_check_trial); 		
+	
 	var survey_sleep_absolute_trial = {
 		type: 'survey-text',
 		questions: [{prompt: "Wie viele Stunden hast du in der letzten Nacht geschlafen?", rows: 1, columns: 2},],
@@ -495,6 +515,14 @@
 	};
 	timeline.push(survey_arousal_halo_detail_trial); 
 	
+	// pilot survey
+	var pilot_trial = {		
+		type: 'survey-text',
+		questions: [{prompt: "An alle Testprobanden: Habt ihr noch Anmerkungen oder Verbesserungsvorschläge für das heutige Experiment?", rows: 20, columns: 80}],
+		data: {trial_code: "pilot_survey"}, 
+		};
+	timeline.push(pilot_trial); 	
+		
 	// end trial
 	var end_trial = {
 		type: 'html-button-response',
