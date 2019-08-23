@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<html lang="de">
+
+<head>
+
+  <meta charset="UTF-8"/>
+  
+  <!-- name of experiment -->
+  <title>online_test_Day2</title>  
+  
+  <!-- loads jspsych plugins (offline) -->
+	<script type="text/javascript" src="jspsych-6.0.5/jspsych.js"></script>
+	<link rel="stylesheet" type="text/css" href="jspsych-6.0.5/css/jspsych.css"/>
+	<script type="text/javascript" src="jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js"></script>
+	<script type="text/javascript" src="jspsych-6.0.5/plugins/jspsych-image-keyboard-response.js"></script>
+	<script type="text/javascript" src="jspsych-6.0.5/plugins/jspsych-html-button-response.js"></script>
+	<script type="text/javascript" src="jspsych-6.0.5/plugins/jspsych-fullscreen.js"></script>
+	<script src="jspsych-6.0.5/plugins/jspsych-survey-text.js"></script> 
+	<script type="text/javascript" src="jspsych-6.0.5/plugins/jspsych-survey-likert.js"></script>
+	<script type="text/javascript" src="jspsych-6.0.5/plugins/jspsych-survey-multi-choice.js"></script>
+
+   
+
+</head>
+
+
+<!-- this is the Javascript section -->
+<script>
+  
+
+	///////////////////////////////////////////////////////
+	// define variables
+
+
+	// create timeline
+	var timeline = [];
+
+	var console_test = "go console!";
+	console.log(console_test);
+  
+	// add day varaible to the data 
+	jsPsych.data.addProperties({day: "FollowUp"});  
+  
+
+	///////////////////////////////////////////////////////
+	// prepare multiple choice answers and likert scales
+	var likert_sleep = ["viel weniger", "etwas weniger", "gleich viel", "etwas mehr", "viel mehr"];
+	var likert_novelty = [ "gar nicht", "eher nicht", "weder noch", "eher", "sehr" ];
+	var likert_yes_no = ["ja", "nein"];
+	var likert_gender = ["männlich", "weiblich", "divers"];
+	var likert_education = ["Hauptschulabschluss", "Realschulabschluss", "Abitur", "Universitätsabschluss"];
+
+
+
+
+	///////////////////////////////////////////////////////
+	// start the experiment
+
+	var fullscreen_trial = {
+		type: 'fullscreen',
+		message: '',
+		button_label: ['Start'],
+		fullscreen_mode: true,
+	}
+	timeline.push(fullscreen_trial);
+
+	// welcome instruction
+	var welcome_instruction_trial = {
+		type: 'html-button-response',
+		stimulus: '<p> Willkommen zurück! <br> <br> Follow Up </p>',
+		choices: ['Los!'],
+		data: {day: "day2"}, 
+	};
+	timeline.push(welcome_instruction_trial);
+
+ 	// subject ID
+	var subject_id_trial = {
+		type: 'survey-text',
+		questions: [{prompt: "Bitte gib hier deinen persönlichen Probandencode ein. <br> Der Code setzt sich zusammen aus: <br> <br> - dem dritten Buchstaben des Vornamens deiner Mutter, <br> - dem dritten Buchstaben des Vornamens deines Vaters, <br> - dem dritten Buchstaben deines Geburtsortes, <br> - dem dritten Buchstaben der Straße, in der du wohnst, <br> - dem Tag deines Geburtstags. <br> <br> (z.B. <b>'GNRN02'</b> für 'Inge', 'Hans', 'Berlin', 'Sonnenallee', '02.05.1990') <br> ", rows: 1, columns: 8}],
+		button_label: 'Ok!',
+		data: {trial_code: "subject_id"},
+		on_finish: function(data){
+			subject_id = JSON.parse(data.responses).Q0;
+			jsPsych.data.addProperties({
+				subject_id: subject_id,
+			});
+		},		
+	};
+	timeline.push(subject_id_trial); 
+ 
+	// age
+	var survey_age_trial = {
+		type: 'survey-text',
+		questions: [{prompt: "Wie alt bist du?", rows: 1, columns: 5},],
+		button_label: 'Ok!',
+		data: {trial_code: "age"}, 
+	};
+	timeline.push(survey_age_trial); 
+
+	// gender
+	var survey_gender_trial = {
+		type: 'survey-likert',
+		questions: [{prompt: "Welches Geschleht hast du?", labels: likert_gender}],
+    	button_label: 'Ok!',
+		data: {trial_code: "gender"}, 
+	};
+	timeline.push(survey_gender_trial); 	
+	
+		// education
+	var survey_education_trial = {
+		type: 'survey-multi-choice',
+		questions: [{prompt: "Was ist dein höchster Bildungsabschluss?", name: "education", options: likert_education}],
+    	button_label: 'Ok!',
+		data: {trial_code: "education"}, 
+	};
+	timeline.push(survey_education_trial); 	
+
+	// occupation
+	var survey_occupation_trial = {
+		type: 'survey-text',
+		questions: [{prompt: "Was ist dein Studienfach bzw. Beruf?", rows: 1, columns: 20},],
+		button_label: 'Ok!',
+		data: {trial_code: "occupation"}, 
+	};
+	timeline.push(survey_occupation_trial); 
+	
+	// medication
+	var survey_medication_yes_no_trial = {
+		type: 'survey-likert',
+		questions: [{prompt: "Nimmst du regelmäßig Medikamente ein?", labels: likert_yes_no}],
+    	button_label: 'Ok!',
+		data: {trial_code: "medication_yes_no"}, 
+	};
+	timeline.push(survey_medication_yes_no_trial); 	
+
+	// medicationd detail
+	var survey_medication_detail_trial = {
+		type: 'survey-text',
+		questions: [{prompt: 	"Wenn du Medikamente einnimmst, welche sind das?" + 
+								"<br> Wenn du keine Medikamente einnimmst, drücke 'Ok!'", rows: 10, columns: 50},],
+		button_label: 'Ok!',
+		data: {trial_code: "medication_detail"}, 
+		};
+		timeline.push(survey_medication_detail_trial); 
+
+	// eye sight
+	var survey_sight_trial = {
+		type: 'survey-likert',
+		questions: [{prompt: "Hast du eine normale/korrigierte Sehstärke?", labels: likert_yes_no}],
+    	button_label: 'Ok!',
+		data: {trial_code: "sight"}, 
+	};
+	timeline.push(survey_sight_trial); 	
+
+	// dyslexia
+	var survey_dyslexia_trial = {
+		type: 'survey-likert',
+		questions: [{prompt: "Hast du eine Lese-Rechtschreibschwäche?", labels: likert_yes_no}],
+    	button_label: 'Ok!',
+		data: {trial_code: "dyslexia"}, 
+	};
+	timeline.push(survey_dyslexia_trial); 	
+
+	// disorders
+	var survey_disorders_trial = {
+		type: 'survey-likert',
+		questions: [{prompt: "Hast du andere neurologische oder psychiatrische Erkrankungen?", labels: likert_yes_no}],
+    	button_label: 'Ok!',
+		data: {trial_code: "disorders"}, 
+	};
+	timeline.push(survey_disorders_trial); 	
+
+	// end trial
+	var end_trial = {
+		type: 'html-button-response',
+		stimulus: '<p> Gut gemacht, vielen Dank!  <br> <br> Ende des Experiments! Beenden mit "Ok". </p>',
+		choices: ['Ok!']
+	};
+	timeline.push(end_trial);
+
+
+	///////////////////////////////////////////////////////
+	// start experiment
+
+	// starts playing the timeline
+	jsPsych.init({
+		timeline: timeline,
+		on_finish: function() {jsPsych.data.displayData('csv');},					// displays data at the end
+	});
+
+  
+</script>
+
+</html>
